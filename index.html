@@ -276,6 +276,9 @@
     }
 
     .btn {
+      display: inline-block;
+      text-decoration: none;
+      text-align: center;
       appearance: none;
       border: 1px solid var(--button-border);
       outline: none;
@@ -577,39 +580,29 @@
       max-width: 430px;
       margin-top: 30px;
       padding: 18px;
-      background: #ffffff; /* Fixed light theme background */
-      border: 1px solid #dcdcdc; /* Fixed light theme border */
+      background: var(--card);
+      border: 1px solid var(--line);
       border-radius: 30px;
       box-shadow: var(--shadow);
-      min-height: 200px; /* Adjust as needed */
+      min-height: 200px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
     }
 
     .affiliate-link-section {
-      width: 100%;
-      max-width: 430px;
       margin-top: 20px;
-      margin-bottom: 30px; /* Add some space below */
-      padding: 18px;
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 30px;
-      box-shadow: var(--shadow);
-      display: flex;
-      justify-content: center; /* Center the button */
-      align-items: center;
-      min-height: 80px; /* Adjust as needed */
+      text-align: center;
     }
 
     .affiliate-link-section .btn {
-      width: auto; /* Allow button to size naturally */
-      padding: 12px 24px; /* More padding for a call to action */
+      width: auto;
+      padding: 12px 24px;
       font-size: 14px;
     }
   </style>
 </head>
+
 <body>
   <div class="app">
     <section id="mainScreen" class="screen active">
@@ -1409,6 +1402,10 @@
       let value = (v || "").trim();
       if (!value) return null;
       if (!value.startsWith("#")) value = "#" + value;
+      // Support 3-digit hex (#fff -> #ffffff)
+      if (/^#([0-9A-Fa-f]{3})$/.test(value)) {
+        return "#" + value[1] + value[1] + value[2] + value[2] + value[3] + value[3];
+      }
       if (/^#([0-9A-Fa-f]{6})$/.test(value)) return value;
       return null;
     }
