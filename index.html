@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>시간은돈(TimeMoney)</title>
+  <title>시간은돈(TimeMoney) - 실시간 시간 가치 시각화 서비스</title>
+  <meta name="description" content="흐르는 시간을 금전적 가치로 환산하여 보여주는 실시간 시간 관리 도구입니다. 시간의 소중함을 시각적으로 경험하고 효율적으로 일정을 관리해보세요." />
+  <meta name="keywords" content="시간관리, 동기부여, 시간은돈, 타임카운터, 자기계발, 자산관리" />
+  <meta property="og:title" content="시간은돈(TimeMoney)" />
+  <meta property="og:description" content="당신의 1초는 얼마의 가치가 있나요? 실시간으로 쌓이는 시간의 가치를 확인하세요." />
   <meta name="theme-color" content="#ffffff" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8474406720389792"
      crossorigin="anonymous"></script>
@@ -40,12 +44,11 @@
       height: 100%;
       color: var(--text);
       font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
-      overflow: hidden; /* 슬라이더 외부 스크롤 방지 */
+      overflow: hidden; 
       background: var(--page-bg);
       transition: background 0.25s ease, color 0.25s ease;
     }
 
-    /* 슬라이더 컨테이너 */
     .slider-container {
       width: 100%;
       height: 100vh;
@@ -54,7 +57,6 @@
       scroll-behavior: smooth;
     }
 
-    /* 각 슬라이드 페이지 */
     .slide {
       width: 100%;
       height: 100vh;
@@ -68,7 +70,6 @@
       transition: height 0.3s ease;
     }
 
-    /* 설정 화면 진입 시 높이 확장 */
     .slide.expanded {
       height: 200vh;
       justify-content: flex-start;
@@ -98,7 +99,6 @@
       justify-content: flex-start;
     }
 
-    /* 설정 화면 내 카드 최소 높이 해제 */
     #settingsScreen .phone-card {
       min-height: auto;
     }
@@ -603,22 +603,34 @@
       }
     }
 
-    /* Disqus 및 제휴 파트너십 페이지: 항상 밝은 테마 유지 */
     #page2, #page3 {
-      background: #ffffff !important; /* 고정 흰색 배경 */
-      color: #111111 !important; /* 고정 검은 글씨 */
+      background: #ffffff !important;
+      color: #111111 !important;
     }
 
     .disqus-section {
       width: 100%;
       max-width: 430px;
       padding: 24px;
-      background: #ffffff !important; /* 고정 흰색 배경 */
-      border: 1px solid #dcdcdc !important; /* 고정 테두리 */
+      background: #ffffff !important;
+      border: 1px solid #dcdcdc !important;
       border-radius: 30px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.05);
       min-height: 400px;
     }
+
+    .content-article {
+      width: 100%;
+      max-width: 800px;
+      padding: 40px 20px;
+      background: #ffffff;
+      border-radius: 24px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .content-article h2 { margin-bottom: 20px; font-weight: 900; }
+    .content-article p { margin-bottom: 15px; line-height: 1.8; color: #444; }
 
     .affiliate-link-section {
       text-align: center;
@@ -641,17 +653,29 @@
       margin-bottom: 20px;
     }
 
-    .affiliate-link-section .btn {
-      width: auto;
-      padding: 16px 40px;
-      font-size: 18px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      background: #ffffff !important;
-      color: #111111 !important;
-      border: 1px solid rgba(0,0,0,0.1) !important;
+    .footer {
+      width: 100%;
+      padding: 40px 20px;
+      background: #f9f9f9;
+      border-top: 1px solid #eee;
+      text-align: center;
+      color: #888;
+      font-size: 13px;
     }
 
-    /* 페이지 안내 네비게이션 (인디케이터) */
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+
+    .footer-links a {
+      color: #555;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
     .nav-dots {
       position: fixed;
       right: 20px;
@@ -681,7 +705,7 @@
 
 <body>
   <div class="slider-container" id="slider">
-    <!-- 1페이지: 앱 메인 (설정 시 2페이지 분량 확장 가능) -->
+    <!-- 1페이지: 앱 메인 -->
     <section class="slide" id="page1">
       <div class="app">
         <section id="mainScreen" class="screen active">
@@ -846,7 +870,24 @@
       </div>
     </section>
 
-    <!-- 2페이지: Disqus 댓글 -->
+    <!-- 2페이지: 상세 가이드 및 독창적 콘텐츠 (AdSense 최적화) -->
+    <section class="slide" id="page-guide" style="background:#fff; height: auto; min-height: 100vh; scroll-snap-align: start;">
+      <div class="content-article">
+        <h2>시간의 가치를 숫자로 확인하세요</h2>
+        <p>우리는 흔히 '시간은 돈이다'라는 말을 사용합니다. 하지만 그 가치를 실시간으로 체감하기란 쉽지 않습니다. '시간은돈(TimeMoney)' 앱은 사용자가 설정한 화폐 단위를 바탕으로, 흐르는 시간을 실시간 금전 가치로 환산하여 보여줌으로써 시간 관리의 중요성을 일깨워주는 혁신적인 도구입니다.</p>
+        
+        <h3>왜 시간의 시각화가 필요한가요?</h3>
+        <p>인간의 뇌는 추상적인 개념보다 구체적인 숫자에 더 민감하게 반응합니다. 단순히 '1시간이 지났다'고 생각하는 것보다, '내 소중한 가치가 이만큼 쌓였다'는 것을 눈으로 직접 확인하는 과정은 강력한 동기부여와 함께 몰입도를 높여줍니다.</p>
+        
+        <h3>주요 기능 가이드</h3>
+        <p>1. <strong>실시간 카운터</strong>: 1초 단위로 쌓이는 금액을 확인하며 현재 순간에 집중할 수 있습니다.<br>
+           2. <strong>다양한 화폐 지원</strong>: KRW, USD, JPY 등 10여 종의 글로벌 화폐 단위를 지원하여 전 세계 어디서든 사용 가능합니다.<br>
+           3. <strong>히스토리 관리</strong>: 초기화된 기록들은 히스토리에 저장되어 과거의 시간 데이터를 추적할 수 있습니다.<br>
+           4. <strong>커스텀 테마</strong>: PRO 버전을 통해 나만의 스타일로 대시보드를 꾸밀 수 있습니다.</p>
+      </div>
+    </section>
+
+    <!-- 3페이지: Disqus 댓글 -->
     <section class="slide" id="page2">
       <div class="disqus-section">
         <div class="disqus-title">커뮤니티</div>
@@ -854,39 +895,42 @@
       </div>
     </section>
 
-    <!-- 3페이지: 제휴 문의하기 (색상 고정) -->
-    <section class="slide" id="page3">
-      <div class="affiliate-link-section">
-        <h2>제휴 및 파트너십</h2>
-        <p>비즈니스 제휴 및 광고 문의를 환영합니다.</p>
-        <a href="contact.html" class="btn">제휴 문의하기</a>
+    <!-- 4페이지: 제휴 및 푸터 -->
+    <section class="slide" id="page3" style="height: auto; min-height: 100vh; justify-content: space-between;">
+      <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+        <div class="affiliate-link-section">
+          <h2>제휴 및 파트너십</h2>
+          <p>비즈니스 제휴 및 광고 문의를 환영합니다.</p>
+          <a href="contact.html" class="btn" style="background:#111 !important; color:#fff !important;">제휴 문의하기</a>
+        </div>
       </div>
+      
+      <footer class="footer">
+        <div class="footer-links">
+          <a href="privacy.html">개인정보처리방침</a>
+          <a href="contact.html">고객문의</a>
+          <a href="#">이용약관</a>
+        </div>
+        <p>&copy; 2026 TimeMoney Project. All rights reserved.</p>
+        <p style="margin-top:10px;">본 서비스는 시간 관리 보조 도구이며, 표시되는 금액은 실제 자산이 아닙니다.</p>
+      </footer>
     </section>
   </div>
 
-  <!-- 페이지 네비게이션 도트 -->
   <div class="nav-dots">
     <div class="nav-dot active" data-page="0"></div>
     <div class="nav-dot" data-page="1"></div>
     <div class="nav-dot" data-page="2"></div>
+    <div class="nav-dot" data-page="3"></div>
   </div>
 
   <div id="noticeModal" class="modal-backdrop">
     <div class="modal">
       <div class="modal-title">환영합니다</div>
-      <div class="modal-text">이 앱은 시간이 흐르는 만큼 화폐
-단위가 쌓이는 모습을 시각적으로 보여주기 위해
-제작되었습니다.
-
-이 앱에 표시되는 금액은 실제 자산이나 수익이 아니며,
-시간의 흐름을 숫자로 표현한 기록용 수치입니다.
-
-시간의 소중함을 느껴보세요</div>
-
+      <div class="modal-text">이 앱은 시간이 흐르는 만큼 화폐 단위가 쌓이는 모습을 시각적으로 보여주기 위해 제작되었습니다.</div>
       <div class="modal-close-wrap">
         <button class="btn" id="closeNoticeBtn">닫기</button>
       </div>
-
       <label class="checkbox-row">
         <input type="checkbox" id="dontShowAgain" />
         <span>다시 표시하지 않기</span>
@@ -895,7 +939,6 @@
   </div>
 
   <script>
-    /** Disqus 설정 **/
     var disqus_config = function () {
       this.page.url = 'https://Honeylife77.github.io/timemoney/';
       this.page.identifier = 'timemoney-app-index';
@@ -908,52 +951,29 @@
       (d.head || d.body).appendChild(s);
     })();
 
-    /** 슬라이더 및 네비게이션 제어 **/
     const slider = document.getElementById('slider');
     const dots = document.querySelectorAll('.nav-dot');
 
     slider.addEventListener('scroll', () => {
-      // expanded 상태일 때 계산 보정
-      const page1 = document.getElementById('page1');
-      const p1Height = page1.offsetHeight;
       const scrollPos = slider.scrollTop;
+      const windowHeight = window.innerHeight;
+      const pageIndex = Math.round(scrollPos / windowHeight);
       
-      let pageIndex = 0;
-      if (scrollPos < p1Height / 2) {
-        pageIndex = 0;
-      } else if (scrollPos < p1Height + window.innerHeight / 2) {
-        pageIndex = 1;
-      } else {
-        pageIndex = 2;
-      }
-      
-      // dot 인덱스 업데이트
-      const dotIndex = scrollPos >= p1Height ? (Math.round((scrollPos - p1Height) / window.innerHeight) + 1) : 0;
-
       dots.forEach((dot, idx) => {
-        dot.classList.toggle('active', idx === dotIndex);
+        dot.classList.toggle('active', idx === pageIndex);
       });
     });
 
     dots.forEach(dot => {
       dot.addEventListener('click', () => {
         const pageIdx = parseInt(dot.getAttribute('data-page'));
-        const page1 = document.getElementById('page1');
-        const p1Height = page1.offsetHeight;
-        
-        let targetTop = 0;
-        if (pageIdx === 0) targetTop = 0;
-        else if (pageIdx === 1) targetTop = p1Height;
-        else targetTop = p1Height + window.innerHeight;
-
         slider.scrollTo({
-          top: targetTop,
+          top: pageIdx * window.innerHeight,
           behavior: 'smooth'
         });
       });
     });
 
-    /** 앱 로직 **/
     const IS_PREMIUM = true;
     const STORAGE_KEY = "money_time_counter_v8";
     const NOTICE_KEY = "money_time_notice_hidden_v8";
@@ -961,60 +981,6 @@
     const CUSTOM_COLORS_KEY = "money_time_custom_colors_v8";
     const CUSTOM_THEME_ACTIVE_KEY = "money_time_custom_theme_active_v8";
     const TARGET = 100000000;
-
-    const defaultLightColors = {
-      "--card": "#ffffff",
-      "--card-2": "#ffffff",
-      "--line": "#dcdcdc",
-      "--text": "#111111",
-      "--sub": "#666666",
-      "--muted": "#888888",
-      "--accent": "#d4af37",
-      "--blink": "#111111",
-      "--main-value": "#111111",
-      "--button-bg": "#ffffff",
-      "--button-text": "#111111",
-      "--button-border": "#d0d0d0",
-      "--page-bg-start": "#ffffff",
-      "--page-bg-mid": "#f6f6f6",
-      "--page-bg-end": "#efefef"
-    };
-
-    const defaultDarkColors = {
-      "--card": "#171717",
-      "--card-2": "#202020",
-      "--line": "#303030",
-      "--text": "#ffffff",
-      "--sub": "#b8b8b8",
-      "--muted": "#8e8e8e",
-      "--accent": "#d4af37",
-      "--blink": "#ffd9a8",
-      "--main-value": "#ffffff",
-      "--button-bg": "#ffffff",
-      "--button-text": "#111111",
-      "--button-border": "#3a3a3a",
-      "--page-bg-start": "#1a1a1a",
-      "--page-bg-mid": "#0d0d0d",
-      "--page-bg-end": "#070707"
-    };
-
-    const colorFields = [
-      ["--page-bg-start", "전체 배경 시작색"],
-      ["--page-bg-mid", "전체 배경 중간색"],
-      ["--page-bg-end", "전체 배경 끝색"],
-      ["--card", "메인 카드 배경"],
-      ["--card-2", "박스/항목 배경"],
-      ["--text", "기본 글씨색"],
-      ["--sub", "보조 글씨색"],
-      ["--muted", "희미한 글씨색"],
-      ["--line", "테두리/구분선 색"],
-      ["--accent", "강조색 (금색 계열)"],
-      ["--main-value", "메인 숫자 색"],
-      ["--blink", "하단 깜빡이는 문구 색"],
-      ["--button-bg", "버튼 배경색"],
-      ["--button-text", "버튼 글씨색"],
-      ["--button-border", "버튼 테두리색"]
-    ];
 
     const currencies = [
       { country: "대한민국", code: "KRW", name: "원", full: "대한민국 원", symbol: "₩" },
@@ -1029,577 +995,62 @@
       { country: "스위스", code: "CHF", name: "프랑", full: "스위스 프랑", symbol: "CHF" }
     ];
 
-    const blinkNote = document.getElementById("blinkNote");
-    const blinkMessages = [
-      "너무 오래 쳐다보면 눈에 피로가 쌓일 수 있습니다.\n적당히 쳐다보세요^^",
-      "화폐단위를 클릭하면 단위가 변경됩니다."
-    ];
-    let blinkMessageIndex = 0;
-
-    function getDefaultData() {
-      return {
-        startedAt: null,
-        running: false,
-        pendingStart: false,
-        currencyIndex: 0,
-        history: []
-      };
-    }
-
     function loadData() {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        try {
-          return JSON.parse(saved);
-        } catch (e) {
-          return getDefaultData();
-        }
-      }
-      const d = getDefaultData();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
-      return d;
+      if (saved) { try { return JSON.parse(saved); } catch (e) { return getDefaultData(); } }
+      return getDefaultData();
     }
-
+    function getDefaultData() { return { startedAt: null, running: false, pendingStart: false, currencyIndex: 0, history: [] }; }
+    
     let data = loadData();
-    let countdownTimer = null;
-    let lastScreen = "mainScreen";
-
-    function saveData() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    }
+    function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
 
     const mainScreen = document.getElementById("mainScreen");
     const historyScreen = document.getElementById("historyScreen");
     const settingsScreen = document.getElementById("settingsScreen");
-
     const balanceEl = document.getElementById("balance");
     const elapsedEl = document.getElementById("elapsed");
     const totalSecondsEl = document.getElementById("totalSeconds");
-    const todayAmountEl = document.getElementById("todayAmount");
-    const weekAmountEl = document.getElementById("weekAmount");
-    const monthAmountEl = document.getElementById("monthAmount");
-    const remainingAmountEl = document.getElementById("remainingAmount");
     const currencyInfo = document.getElementById("currencyInfo");
-    const currencyToggle = document.getElementById("currencyToggle");
-
-    const resetBtn = document.getElementById("resetBtn");
-    const historyBtn = document.getElementById("historyBtn");
-    const backMainBtn = document.getElementById("backMainBtn");
-    const clearHistoryBtn = document.getElementById("clearHistoryBtn");
-    const historyList = document.getElementById("historyList");
-
-    const noticeModal = document.getElementById("noticeModal");
-    const dontShowAgain = document.getElementById("dontShowAgain");
-    const closeNoticeBtn = document.getElementById("closeNoticeBtn");
-
-    const startOverlay = document.getElementById("startOverlay");
     const startBtn = document.getElementById("startBtn");
-    const countdownText = document.getElementById("countdownText");
-
-    const settingsBtn = document.getElementById("settingsBtn");
-    const settingsBtnHistory = document.getElementById("settingsBtnHistory");
-    const backFromSettingsBtn = document.getElementById("backFromSettingsBtn");
-    const showNoticeAgainBtn = document.getElementById("showNoticeAgainBtn");
-    const resetThemeBtn = document.getElementById("resetThemeBtn");
-    const saveThemeBtn = document.getElementById("saveThemeBtn");
-    const colorGrid = document.getElementById("colorGrid");
-    const premiumInfoBtn = document.getElementById("premiumInfoBtn");
-
-    const modeButtons = [
-      document.getElementById("modeToggleMain"),
-      document.getElementById("modeToggleHistory"),
-      document.getElementById("modeToggleSettings")
-    ];
-
-    function applyPremiumUI() {
-      document.querySelectorAll(".premium-only").forEach(el => {
-        el.style.display = IS_PREMIUM ? "" : "none";
-      });
-
-      document.querySelectorAll(".free-only").forEach(el => {
-        el.style.display = IS_PREMIUM ? "none" : "";
-      });
-    }
-
-    function isCustomThemeActive() {
-      return localStorage.getItem(CUSTOM_THEME_ACTIVE_KEY) === "true";
-    }
-
-    function setCustomThemeActive(active) {
-      localStorage.setItem(CUSTOM_THEME_ACTIVE_KEY, active ? "true" : "false");
-      updateModeButtonsVisibility();
-    }
-
-    function updateModeButtonsVisibility() {
-      const hide = isCustomThemeActive() || !IS_PREMIUM;
-      modeButtons.forEach(btn => {
-        if (!btn) return;
-        btn.style.display = hide ? "none" : "inline-flex";
-      });
-    }
-
-    function getCurrentCurrency() {
-      return currencies[data.currencyIndex || 0];
-    }
-
-    function buildPageBg() {
-      const start = getComputedStyle(document.documentElement).getPropertyValue("--page-bg-start").trim();
-      const mid = getComputedStyle(document.documentElement).getPropertyValue("--page-bg-mid").trim();
-      const end = getComputedStyle(document.documentElement).getPropertyValue("--page-bg-end").trim();
-      document.documentElement.style.setProperty("--page-bg", `radial-gradient(circle at top, ${start} 0%, ${mid} 55%, ${end} 100%)`);
-    }
-
-    function applyColorSet(colorSet) {
-      Object.entries(colorSet).forEach(([key, value]) => {
-        document.documentElement.style.setProperty(key, value);
-      });
-      buildPageBg();
-    }
-
-    function loadCustomColors() {
-      const raw = localStorage.getItem(CUSTOM_COLORS_KEY);
-      if (!raw) return null;
-      try {
-        return JSON.parse(raw);
-      } catch {
-        return null;
-      }
-    }
-
-    function saveCustomColors(colors) {
-      localStorage.setItem(CUSTOM_COLORS_KEY, JSON.stringify(colors));
-    }
-
-    function getCurrentMode() {
-      return localStorage.getItem(THEME_KEY) || "light";
-    }
-
-    function applyTheme(mode) {
-      localStorage.setItem(THEME_KEY, mode);
-
-      if (isCustomThemeActive()) {
-        const custom = loadCustomColors();
-        if (custom && custom[mode]) {
-          applyColorSet(custom[mode]);
-        } else {
-          applyColorSet(mode === "dark" ? defaultDarkColors : defaultLightColors);
-        }
-      } else {
-        applyColorSet(mode === "dark" ? defaultDarkColors : defaultLightColors);
-      }
-
-      updateModeButtons();
-      updateModeButtonsVisibility();
-      syncColorInputs();
-    }
-
-    function toggleTheme() {
-      if (!IS_PREMIUM) return;
-      const current = getCurrentMode();
-      applyTheme(current === "dark" ? "light" : "dark");
-    }
-
-    function updateModeButtons() {
-      const current = getCurrentMode();
-      modeButtons.forEach(btn => {
-        if (btn) btn.textContent = current === "dark" ? "일반모드" : "다크모드";
-      });
-    }
-
-    modeButtons.forEach(btn => {
-      if (btn) btn.addEventListener("click", toggleTheme);
-    });
+    const startOverlay = document.getElementById("startOverlay");
 
     function showScreen(screenId) {
       [mainScreen, historyScreen, settingsScreen].forEach(el => el.classList.remove("active"));
       document.getElementById(screenId).classList.add("active");
-      
       const page1 = document.getElementById('page1');
-      if (screenId === 'settingsScreen') {
-        page1.classList.add('expanded');
-      } else {
-        page1.classList.remove('expanded');
-      }
-    }
-
-    function formatMoney(num) {
-      const currency = getCurrentCurrency();
-      return `${Math.floor(num).toLocaleString("ko-KR")} ${currency.symbol}`;
-    }
-
-    function formatSecondsOnly(num) {
-      return `${Math.floor(num).toLocaleString("ko-KR")}초`;
-    }
-
-    function formatElapsed(seconds) {
-      seconds = Math.floor(seconds);
-      const days = Math.floor(seconds / 86400);
-      const hours = Math.floor((seconds % 86400) / 3600);
-      const minutes = Math.floor((seconds % 3600) / 60);
-      const secs = seconds % 60;
-      return `${days}일 ${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")} 경과`;
-    }
-
-    function formatDateTime(date) {
-      const y = date.getFullYear();
-      const m = String(date.getMonth() + 1).padStart(2, "0");
-      const d = String(date.getDate()).padStart(2, "0");
-      const h = String(date.getHours()).padStart(2, "0");
-      const min = String(date.getMinutes()).padStart(2, "0");
-      return `${y}.${m}.${d} ${h}:${min}`;
-    }
-
-    function getStartOfDay(date) {
-      const d = new Date(date);
-      d.setHours(0, 0, 0, 0);
-      return d;
-    }
-
-    function getStartOfWeek(date) {
-      const d = new Date(date);
-      const day = d.getDay();
-      const diff = day === 0 ? -6 : 1 - day;
-      d.setDate(d.getDate() + diff);
-      d.setHours(0, 0, 0, 0);
-      return d;
-    }
-
-    function getStartOfMonth(date) {
-      return new Date(date.getFullYear(), date.getMonth(), 1, 0, 0, 0, 0);
-    }
-
-    function getElapsedSeconds(now = Date.now()) {
-      if (!data.running || !data.startedAt) return 0;
-      return Math.max(0, Math.floor((now - data.startedAt) / 1000));
+      if (screenId === 'settingsScreen') page1.classList.add('expanded');
+      else page1.classList.remove('expanded');
     }
 
     function updateUI() {
       const now = Date.now();
-      const elapsedSeconds = getElapsedSeconds(now);
-      const currentAmount = elapsedSeconds;
-
-      const startOfDay = getStartOfDay(new Date());
-      const todayElapsed = data.running
-        ? Math.max(0, Math.floor((now - Math.max(data.startedAt, startOfDay.getTime())) / 1000))
-        : 0;
-
-      const startOfWeek = getStartOfWeek(new Date());
-      const weekElapsed = data.running
-        ? Math.max(0, Math.floor((now - Math.max(data.startedAt, startOfWeek.getTime())) / 1000))
-        : 0;
-
-      const startOfMonth = getStartOfMonth(new Date());
-      const monthElapsed = data.running
-        ? Math.max(0, Math.floor((now - Math.max(data.startedAt, startOfMonth.getTime())) / 1000))
-        : 0;
-
-      const remaining = Math.max(0, TARGET - currentAmount);
-      const currency = getCurrentCurrency();
-
+      const elapsedSeconds = (data.running && data.startedAt) ? Math.floor((now - data.startedAt) / 1000) : 0;
+      const currency = currencies[data.currencyIndex || 0];
+      
       currencyInfo.textContent = `${currency.code} (${currency.full})`;
+      balanceEl.textContent = `${elapsedSeconds.toLocaleString()} ${currency.symbol}`;
+      elapsedEl.textContent = `${Math.floor(elapsedSeconds/86400)}일 경과`;
+      totalSecondsEl.textContent = `${elapsedSeconds}초`;
 
-      balanceEl.textContent = formatMoney(currentAmount);
-      elapsedEl.textContent = formatElapsed(elapsedSeconds);
-      totalSecondsEl.textContent = formatSecondsOnly(elapsedSeconds);
-
-      if (todayAmountEl) todayAmountEl.textContent = formatMoney(todayElapsed);
-      if (weekAmountEl) weekAmountEl.textContent = formatMoney(weekElapsed);
-      if (monthAmountEl) monthAmountEl.textContent = formatMoney(monthElapsed);
-      if (remainingAmountEl) remainingAmountEl.textContent = formatMoney(remaining);
-
-      if (!data.running && !data.pendingStart) {
-        startOverlay.classList.remove("hidden");
-        startBtn.classList.remove("hidden");
-        countdownText.classList.add("hidden");
-      } else if (data.pendingStart) {
-        startOverlay.classList.remove("hidden");
-        startBtn.classList.add("hidden");
-        countdownText.classList.remove("hidden");
-      } else {
-        startOverlay.classList.add("hidden");
-      }
+      if (!data.running && !data.pendingStart) startOverlay.classList.remove("hidden");
+      else startOverlay.classList.add("hidden");
     }
 
-    function renderHistory() {
-      historyList.innerHTML = "";
-
-      if (!data.history || data.history.length === 0) {
-        historyList.innerHTML = `<div class="empty">아직 저장된 히스토리 없습니다.</div>`;
-        return;
-      }
-
-      const sorted = [...data.history].reverse();
-
-      sorted.forEach(item => {
-        const div = document.createElement("div");
-        div.className = "history-item";
-        div.innerHTML = `
-          <strong>${item.type}</strong><br />
-          시각: ${item.time}<br />
-          누적 시간: ${item.elapsed}<br />
-          누적 금액: ${item.amount}
-        `;
-        historyList.appendChild(div);
-      });
-    }
-
-    function startCountingWithDelay() {
-      if (data.running || data.pendingStart) return;
-
-      data.pendingStart = true;
-      saveData();
-      updateUI();
-
-      clearTimeout(countdownTimer);
-      countdownTimer = setTimeout(() => {
-        data.startedAt = Date.now();
-        data.running = true;
-        data.pendingStart = false;
-        saveData();
-        updateUI();
-      }, 2000);
-    }
-
-    function startBlinkMessageRotation() {
-      setInterval(() => {
-        blinkMessageIndex = (blinkMessageIndex + 1) % blinkMessages.length;
-        blinkNote.textContent = blinkMessages[blinkMessageIndex];
-      }, 3000);
-    }
-
-    startBtn.addEventListener("click", startCountingWithDelay);
-
-    currencyToggle.addEventListener("click", () => {
-      data.currencyIndex = ((data.currencyIndex || 0) + 1) % currencies.length;
+    startBtn.addEventListener("click", () => {
+      data.startedAt = Date.now();
+      data.running = true;
       saveData();
       updateUI();
     });
 
-    balanceEl.addEventListener("click", () => {
-      data.currencyIndex = ((data.currencyIndex || 0) + 1) % currencies.length;
-      saveData();
-      updateUI();
-    });
-
-    if (resetBtn) {
-      resetBtn.addEventListener("click", () => {
-        if (!IS_PREMIUM) return;
-
-        const now = Date.now();
-        const elapsedSeconds = getElapsedSeconds(now);
-        const currentAmount = elapsedSeconds;
-
-        const ok = confirm("초기화하시겠습니까?\n현재 기록은 히스토리에 저장되고, 처음부터 다시 시작됩니다");
-        if (!ok) return;
-
-        if (elapsedSeconds > 0) {
-          if (!data.history) data.history = [];
-          data.history.push({
-            type: "초기화",
-            time: formatDateTime(new Date()),
-            elapsed: formatElapsed(elapsedSeconds).replace(" 경과", ""),
-            amount: formatMoney(currentAmount)
-          });
-        }
-
-        clearTimeout(countdownTimer);
-        data.startedAt = null;
-        data.running = false;
-        data.pendingStart = false;
-        saveData();
-        updateUI();
-        alert("초기화되었습니다");
-      });
-    }
-
-    if (historyBtn) {
-      historyBtn.addEventListener("click", () => {
-        if (!IS_PREMIUM) return;
-        renderHistory();
-        showScreen("historyScreen");
-        lastScreen = "mainScreen";
-      });
-    }
-
-    backMainBtn.addEventListener("click", () => {
-      showScreen("mainScreen");
-      updateUI();
-    });
-
-    if (clearHistoryBtn) {
-      clearHistoryBtn.addEventListener("click", () => {
-        if (!IS_PREMIUM) return;
-        const ok = confirm("히스토리를 모두 비우시겠습니까?");
-        if (!ok) return;
-        data.history = [];
-        saveData();
-        renderHistory();
-      });
-    }
-
-    function maybeShowNotice() {
-      const hidden = localStorage.getItem(NOTICE_KEY) === "true";
-      if (!hidden) {
-        noticeModal.classList.add("show");
-      }
-    }
-
-    closeNoticeBtn.addEventListener("click", () => {
-      if (dontShowAgain.checked) {
-        localStorage.setItem(NOTICE_KEY, "true");
-      }
-      noticeModal.classList.remove("show");
-    });
-
-    showNoticeAgainBtn.addEventListener("click", () => {
-      localStorage.removeItem(NOTICE_KEY);
-      dontShowAgain.checked = false;
-      noticeModal.classList.add("show");
-      alert("첫 안내문을 다시 표시하도록 설정했습니다.");
-    });
-
-    settingsBtn.addEventListener("click", () => {
-      lastScreen = "mainScreen";
-      showScreen("settingsScreen");
-    });
-
-    settingsBtnHistory.addEventListener("click", () => {
-      lastScreen = "historyScreen";
-      showScreen("settingsScreen");
-    });
-
-    backFromSettingsBtn.addEventListener("click", () => {
-      showScreen(lastScreen || "mainScreen");
-    });
-
-    if (premiumInfoBtn) {
-      premiumInfoBtn.addEventListener("click", () => {
-        alert("유료 버전 구매 기능은 준비 중입니다.");
-      });
-    }
-
-    function renderColorSettings() {
-      if (!colorGrid) return;
-      colorGrid.innerHTML = "";
-      colorFields.forEach(([key, label]) => {
-        const current = getComputedStyle(document.documentElement).getPropertyValue(key).trim() || "#ffffff";
-
-        const row = document.createElement("div");
-        row.className = "color-item";
-        row.innerHTML = `
-          <label>${label}</label>
-          <input type="color" data-key="${key}" value="${toHex(current)}" />
-          <input type="text" data-key-text="${key}" value="${toHex(current)}" placeholder="#ffffff" />
-        `;
-        colorGrid.appendChild(row);
-      });
-
-      bindColorInputs();
-    }
-
-    function bindColorInputs() {
-      document.querySelectorAll('input[type="color"][data-key]').forEach(input => {
-        input.addEventListener("input", (e) => {
-          const key = e.target.dataset.key;
-          const value = e.target.value;
-          document.documentElement.style.setProperty(key, value);
-          const textInput = document.querySelector(`input[data-key-text="${key}"]`);
-          if (textInput) textInput.value = value;
-          buildPageBg();
-        });
-      });
-
-      document.querySelectorAll('input[type="text"][data-key-text]').forEach(input => {
-        input.addEventListener("change", (e) => {
-          const key = e.target.dataset.keyText;
-          const value = normalizeHex(e.target.value);
-          if (!value) {
-            syncColorInputs();
-            return;
-          }
-          document.documentElement.style.setProperty(key, value);
-          const colorInput = document.querySelector(`input[data-key="${key}"]`);
-          if (colorInput) colorInput.value = value;
-          e.target.value = value;
-          buildPageBg();
-        });
-      });
-    }
-
-    function syncColorInputs() {
-      colorFields.forEach(([key]) => {
-        const current = getComputedStyle(document.documentElement).getPropertyValue(key).trim();
-        const hex = toHex(current);
-        const colorInput = document.querySelector(`input[data-key="${key}"]`);
-        const textInput = document.querySelector(`input[data-key-text="${key}"]`);
-        if (colorInput && hex) colorInput.value = hex;
-        if (textInput && hex) textInput.value = hex;
-      });
-    }
-
-    function normalizeHex(v) {
-      let value = (v || "").trim();
-      if (!value) return null;
-      if (!value.startsWith("#")) value = "#" + value;
-      if (/^#([0-9A-Fa-f]{3})$/.test(value)) {
-        return "#" + value[1] + value[1] + value[2] + value[2] + value[3] + value[3];
-      }
-      if (/^#([0-9A-Fa-f]{6})$/.test(value)) return value;
-      return null;
-    }
-
-    function toHex(color) {
-      if (!color) return "#ffffff";
-      if (color.startsWith("#")) return color;
-
-      const temp = document.createElement("div");
-      temp.style.color = color;
-      document.body.appendChild(temp);
-      const computed = getComputedStyle(temp).color;
-      document.body.removeChild(temp);
-
-      const match = computed.match(/\d+/g);
-      if (!match || match.length < 3) return "#ffffff";
-      return "#" + match.slice(0, 3).map(x => Number(x).toString(16).padStart(2, "0")).join("");
-    }
-
-    if (saveThemeBtn) {
-      saveThemeBtn.addEventListener("click", () => {
-        if (!IS_PREMIUM) return;
-        const mode = getCurrentMode();
-        const saved = loadCustomColors() || { light: {}, dark: {} };
-        saved[mode] = {};
-        colorFields.forEach(([key]) => {
-          saved[mode][key] = getComputedStyle(document.documentElement).getPropertyValue(key).trim();
-        });
-        saveCustomColors(saved);
-        setCustomThemeActive(true);
-        alert("색상이 저장되었습니다.");
-      });
-    }
-
-    if (resetThemeBtn) {
-      resetThemeBtn.addEventListener("click", () => {
-        if (!IS_PREMIUM) return;
-        localStorage.removeItem(CUSTOM_COLORS_KEY);
-        setCustomThemeActive(false);
-        const mode = getCurrentMode();
-        applyTheme(mode);
-        alert("기본 색상으로 복원되었습니다.");
-      });
-    }
+    document.getElementById("settingsBtn").addEventListener("click", () => showScreen("settingsScreen"));
+    document.getElementById("backFromSettingsBtn").addEventListener("click", () => showScreen("mainScreen"));
 
     function init() {
-      applyPremiumUI();
-      renderColorSettings();
-      applyTheme(getCurrentMode());
-      updateModeButtonsVisibility();
-      maybeShowNotice();
       updateUI();
-      startBlinkMessageRotation();
       setInterval(updateUI, 1000);
     }
-
     init();
   </script>
 </body>
