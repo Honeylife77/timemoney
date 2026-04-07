@@ -6,1052 +6,215 @@
   <title>시간은돈(TimeMoney) - 실시간 시간 가치 시각화 서비스</title>
   <meta name="description" content="흐르는 시간을 금전적 가치로 환산하여 보여주는 실시간 시간 관리 도구입니다. 시간의 소중함을 시각적으로 경험하고 효율적으로 일정을 관리해보세요." />
   <meta name="keywords" content="시간관리, 동기부여, 시간은돈, 타임카운터, 자기계발, 자산관리" />
-  <meta property="og:title" content="시간은돈(TimeMoney)" />
-  <meta property="og:description" content="당신의 1초는 얼마의 가치가 있나요? 실시간으로 쌓이는 시간의 가치를 확인하세요." />
   <meta name="theme-color" content="#ffffff" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8474406720389792"
-     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8474406720389792" crossorigin="anonymous"></script>
   <meta name="google-adsense-account" content="ca-pub-8474406720389792">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #f7f7f7;
-      --bg2: #ffffff;
-      --card: #ffffff;
-      --card-2: #ffffff;
-      --line: rgba(0,0,0,0.08);
-      --text: #111111;
-      --sub: rgba(0,0,0,0.68);
-      --muted: rgba(0,0,0,0.5);
-      --accent: #d4af37;
-      --accent-soft: rgba(212,175,55,0.12);
-      --green: #0f9f85;
-      --danger: #d9534f;
-      --shadow: 0 14px 36px rgba(0,0,0,0.10);
-      --radius: 24px;
-      --btn-dark: #111827;
+      --bg: #f7f7f7; --bg2: #ffffff; --card: #ffffff; --card-2: #ffffff; --line: rgba(0,0,0,0.08);
+      --text: #111111; --sub: rgba(0,0,0,0.68); --muted: rgba(0,0,0,0.5); --accent: #d4af37;
+      --green: #0f9f85; --danger: #d9534f; --shadow: 0 14px 36px rgba(0,0,0,0.10);
       --page-bg: radial-gradient(circle at top, #ffffff 0%, #f6f6f6 55%, #efefef 100%);
-      --blink: #111111;
-      --main-value: #111111;
-      --button-bg: #ffffff;
-      --button-text: #111111;
-      --button-border: rgba(0,0,0,0.10);
+      --main-value: #111111; --button-bg: #ffffff; --button-text: #111111; --button-border: rgba(0,0,0,0.10);
     }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-      color: var(--text);
-      font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
-      overflow: hidden; 
-      background: var(--page-bg);
-      transition: background 0.25s ease, color 0.25s ease;
-    }
-
-    .slider-container {
-      width: 100%;
-      height: 100vh;
-      overflow-y: auto;
-      scroll-snap-type: y mandatory;
-      scroll-behavior: smooth;
-    }
-
-    .slide {
-      width: 100%;
-      height: 100vh;
-      scroll-snap-align: start;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      position: relative;
-      transition: height 0.3s ease;
-    }
-
-    .slide.expanded {
-      height: 200vh;
-      justify-content: flex-start;
-      padding-top: 60px;
-    }
-
-    .app {
-      width: 100%;
-      max-width: 430px;
-    }
-
-    .screen { display: none; }
-    .screen.active { display: block; }
-
-    .phone-card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 30px;
-      padding: 18px;
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-      transition: all 0.25s ease;
-      min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-
-    #settingsScreen .phone-card {
-      min-height: auto;
-    }
-
-    .phone-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 10%, rgba(212,175,55,0.07), transparent 35%);
-      pointer-events: none;
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-      position: relative;
-      z-index: 2;
-      gap: 8px;
-    }
-
-    .topbar-left, .topbar-right {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .mode-btn, .settings-btn {
-      border: 1px solid var(--button-border);
-      background: var(--button-bg);
-      color: var(--button-text);
-      padding: 8px 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 14px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .header .label {
-      font-size: 14px;
-      color: var(--sub);
-      letter-spacing: 0.2px;
-      margin-bottom: 4px;
-      line-height: 1.45;
-    }
-
-    .header .label strong {
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .title-big {
-      font-size: 26px;
-      font-weight: 800;
-      text-align: center;
-      margin-bottom: 10px;
-      letter-spacing: -0.7px;
-    }
-
-    .balance-wrap {
-      text-align: center;
-      margin-bottom: 14px;
-      position: relative;
-      z-index: 1;
-      min-height: 185px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .balance-title {
-      font-size: 14px;
-      color: var(--sub);
-      margin-bottom: 8px;
-      cursor: pointer;
-      user-select: none;
-      line-height: 1.6;
-    }
-
-    .currency-inline {
-      color: var(--accent);
-      font-weight: 800;
-      margin-left: 6px;
-      font-size: 13px;
-      display: inline-block;
-    }
-
-    .balance {
-      font-size: clamp(34px, 8vw, 48px);
-      font-weight: 800;
-      letter-spacing: -1.3px;
-      color: var(--main-value);
-      line-height: 1.05;
-      text-shadow: 0 0 18px rgba(212,175,55,0.08);
-      word-break: keep-all;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .elapsed {
-      margin-top: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: -0.2px;
-    }
-
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--line), transparent);
-      margin: 12px 0;
-      position: relative;
-      z-index: 1;
-    }
-
-    .stats {
-      display: grid;
-      gap: 10px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .stat {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      padding: 11px 13px;
-      border-radius: 18px;
-      background: var(--card-2);
-      border: 1px solid var(--line);
-    }
-
-    .stat-title {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 600;
-      letter-spacing: 0.2px;
-    }
-
-    .stat-value {
-      font-size: 23px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      color: var(--main-value);
-      line-height: 1.1;
-      word-break: break-word;
-    }
-
-    .stat-value.small { font-size: 20px; }
-
-    .money-green { color: var(--green); }
-    .money-gold { color: var(--accent); }
-
-    .mini-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 12px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(212,175,55,0.10);
-      color: var(--accent);
-      font-size: 12px;
-      font-weight: 700;
-      border: 1px solid rgba(212,175,55,0.18);
-      align-self: center;
-    }
-
-    .glow-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 12px rgba(212,175,55,0.8);
-      animation: pulse 1.8s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.25); opacity: 0.65; }
-    }
-
-    .button-row {
-      display: grid;
-      gap: 9px;
-      margin-top: 14px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .button-row.two {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .btn {
-      display: inline-block;
-      text-decoration: none;
-      text-align: center;
-      appearance: none;
-      border: 1px solid var(--button-border);
-      outline: none;
-      cursor: pointer;
-      border-radius: 16px;
-      padding: 12px 12px;
-      font-size: 13px;
-      font-weight: 800;
-      transition: 0.18s ease;
-      background: var(--button-bg);
-      color: var(--button-text);
-    }
-
-    .btn:active { transform: scale(0.98); }
-
-    .blink-note {
-      margin-top: 14px;
-      text-align: center;
-      font-size: 12px;
-      line-height: 1.6;
-      color: var(--blink);
-      animation: blinkText 1.4s infinite;
-      white-space: pre-line;
-      position: relative;
-      z-index: 1;
-      min-height: 40px;
-    }
-
-    @keyframes blinkText {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.28; }
-    }
-
-    .history-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 12px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .history-item {
-      background: var(--card-2);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 12px 13px;
-      line-height: 1.65;
-      font-size: 13px;
-    }
-
-    .empty {
-      text-align: center;
-      color: var(--muted);
-      padding: 24px 10px 8px;
-      line-height: 1.7;
-    }
-
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.74);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      z-index: 9999;
-    }
-
-    .modal-backdrop.show { display: flex; }
-
-    .modal {
-      width: 100%;
-      max-width: 420px;
-      background: #ffffff;
-      border: 1px solid rgba(0,0,0,0.08);
-      border-radius: 28px;
-      padding: 24px 20px 56px;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.25);
-      color: #111;
-      position: relative;
-    }
-
-    .modal-title {
-      font-size: 22px;
-      font-weight: 900;
-      text-align: center;
-      margin-bottom: 14px;
-    }
-
-    .modal-text {
-      color: rgba(0,0,0,0.72);
-      font-size: 14px;
-      line-height: 1.95;
-      white-space: pre-line;
-      margin-bottom: 18px;
-      text-align: center;
-    }
-
-    .modal-close-wrap {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 24px;
-    }
-
-    .modal-close-wrap .btn {
-      background: #ffffff;
-      color: #111111;
-      border: 1px solid rgba(0,0,0,0.12);
-      min-width: 120px;
-    }
-
-    .checkbox-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      color: rgba(0,0,0,0.62);
-      justify-content: flex-start;
-      position: absolute;
-      left: 20px;
-      bottom: 16px;
-    }
-
-    .checkbox-row input {
-      width: 16px;
-      height: 16px;
-      accent-color: #ffffff;
-      background: #ffffff;
-      border: 1px solid rgba(0,0,0,0.2);
-      appearance: auto;
-    }
-
-    .start-overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 5;
-      background: transparent;
-    }
-
-    .start-btn {
-      width: 50%;
-      aspect-ratio: 1 / 1;
-      border-radius: 50%;
-      border: 2px solid rgba(212,175,55,0.35);
-      background: #ffffff;
-      color: #111;
-      font-size: 28px;
-      font-weight: 900;
-      box-shadow: 0 18px 40px rgba(212,175,55,0.22);
-      cursor: pointer;
-      transition: 0.18s ease;
-    }
-
-    .start-btn:active {
-      transform: scale(0.97);
-    }
-
-    .countdown-text {
-      margin-top: 16px;
-      text-align: center;
-      color: var(--accent);
-      font-size: 15px;
-      font-weight: 800;
-    }
-
+    html, body { width: 100%; height: 100%; color: var(--text); font-family: "Apple SD Gothic Neo", sans-serif; overflow: hidden; background: var(--page-bg); transition: all 0.25s ease; }
+    .slider-container { width: 100%; height: 100vh; overflow-y: auto; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+    .slide { width: 100%; height: 100vh; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; transition: height 0.3s ease; }
+    .slide.expanded { height: 200vh; justify-content: flex-start; padding-top: 60px; }
+    .app { width: 100%; max-width: 430px; }
+    .screen { display: none; } .screen.active { display: block; }
+    .phone-card { background: var(--card); border: 1px solid var(--line); border-radius: 30px; padding: 20px; box-shadow: var(--shadow); position: relative; min-height: 80vh; display: flex; flex-direction: column; }
+    .topbar { display: flex; justify-content: space-between; margin-bottom: 10px; z-index: 2; }
+    .mode-btn, .settings-btn { border: 1px solid var(--button-border); background: var(--button-bg); color: var(--button-text); padding: 8px 12px; border-radius: 12px; font-size: 12px; font-weight: 800; cursor: pointer; }
+    .balance-wrap { text-align: center; margin: 20px 0; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+    .balance-title { font-size: 14px; color: var(--sub); cursor: pointer; }
+    .balance { font-size: clamp(34px, 8vw, 48px); font-weight: 800; color: var(--main-value); margin: 10px 0; cursor: pointer; }
+    .stats { display: grid; gap: 10px; margin-bottom: 20px; }
+    .stat { padding: 12px; border-radius: 18px; background: var(--card-2); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px; }
+    .stat-title { font-size: 12px; color: var(--muted); }
+    .stat-value { font-size: 20px; font-weight: 800; }
+    .money-green { color: var(--green); } .money-gold { color: var(--accent); }
+    .button-row { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+    .btn { padding: 14px; border-radius: 16px; border: 1px solid var(--button-border); background: var(--button-bg); color: var(--button-text); font-weight: 800; cursor: pointer; text-align: center; }
+    .start-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 10; border-radius: 30px; }
+    .start-btn { width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--accent); background: #fff; color: #111; font-size: 24px; font-weight: 900; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    #page2, #page3 { background: #ffffff !important; color: #111111 !important; }
+    .disqus-section { width: 100%; max-width: 430px; padding: 20px; background: #fff; border-radius: 30px; border: 1px solid #eee; }
+    .footer { width: 100%; padding: 30px; text-align: center; font-size: 12px; color: #999; }
+    .footer-links { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; }
+    .footer-links a { color: #666; text-decoration: none; font-weight: bold; }
+    .nav-dots { position: fixed; right: 15px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 100; }
+    .nav-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(0,0,0,0.2); cursor: pointer; }
+    .nav-dot.active { background: var(--accent); transform: scale(1.3); }
     .hidden { display: none !important; }
-
-    .settings-section {
-      margin-top: 10px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .settings-card {
-      border: 1px solid var(--line);
-      background: var(--card-2);
-      border-radius: 18px;
-      padding: 14px;
-    }
-
-    .settings-card h3 {
-      font-size: 15px;
-      margin-bottom: 10px;
-      color: var(--text);
-    }
-
-    .settings-desc {
-      font-size: 12px;
-      color: var(--sub);
-      line-height: 1.7;
-      margin-bottom: 10px;
-    }
-
-    .color-grid {
-      display: grid;
-      gap: 10px;
-    }
-
-    .color-item {
-      display: grid;
-      grid-template-columns: 1fr auto auto;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .color-item:last-child {
-      border-bottom: none;
-    }
-
-    .color-item label {
-      font-size: 13px;
-      color: var(--text);
-      font-weight: 700;
-      line-height: 1.4;
-    }
-
-    .color-item input[type="color"] {
-      width: 42px;
-      height: 34px;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-    }
-
-    .color-item input[type="text"] {
-      width: 98px;
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      background: var(--button-bg);
-      color: var(--button-text);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .small-btn-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .premium-lock {
-      display: inline-block;
-      margin-left: 6px;
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--accent);
-    }
-
-    .premium-box {
-      border: 1px dashed var(--accent);
-      background: rgba(212,175,55,0.08);
-      border-radius: 18px;
-      padding: 14px;
-      line-height: 1.8;
-      font-size: 13px;
-      color: var(--text);
-    }
-
-    @media (max-width: 390px) {
-      .phone-card {
-        padding: 16px 14px 16px;
-        border-radius: 26px;
-        min-height: auto;
-      }
-
-      .stat-value { font-size: 21px; }
-      .stat-value.small { font-size: 18px; }
-
-      .button-row,
-      .button-row.two,
-      .small-btn-row {
-        grid-template-columns: 1fr;
-      }
-
-      .start-btn {
-        width: 58%;
-        font-size: 24px;
-      }
-
-      .color-item {
-        grid-template-columns: 1fr;
-        align-items: start;
-      }
-
-      .color-item input[type="text"] {
-        width: 100%;
-      }
-    }
-
-    #page2, #page3 {
-      background: #ffffff !important;
-      color: #111111 !important;
-    }
-
-    .disqus-section {
-      width: 100%;
-      max-width: 430px;
-      padding: 24px;
-      background: #ffffff !important;
-      border: 1px solid #dcdcdc !important;
-      border-radius: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-      min-height: 400px;
-    }
-
-    .content-article {
-      width: 100%;
-      max-width: 800px;
-      padding: 40px 20px;
-      background: #ffffff;
-      border-radius: 24px;
-      margin-bottom: 30px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    }
-
-    .content-article h2 { margin-bottom: 20px; font-weight: 900; }
-    .content-article p { margin-bottom: 15px; line-height: 1.8; color: #444; }
-
-    .affiliate-link-section {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .affiliate-link-section h2 {
-      font-size: 28px;
-      font-weight: 900;
-      margin-bottom: 10px;
-      color: #111111 !important;
-    }
-
-    .affiliate-link-section p {
-      font-size: 15px;
-      color: #666666 !important;
-      margin-bottom: 20px;
-    }
-
-    .footer {
-      width: 100%;
-      padding: 40px 20px;
-      background: #f9f9f9;
-      border-top: 1px solid #eee;
-      text-align: center;
-      color: #888;
-      font-size: 13px;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-bottom: 15px;
-    }
-
-    .footer-links a {
-      color: #555;
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    .nav-dots {
-      position: fixed;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 100;
-    }
-
-    .nav-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--muted);
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .nav-dot.active {
-      background: var(--accent);
-      transform: scale(1.3);
-    }
   </style>
 </head>
-
 <body>
   <div class="slider-container" id="slider">
     <!-- 1페이지: 앱 메인 -->
     <section class="slide" id="page1">
       <div class="app">
         <section id="mainScreen" class="screen active">
-          <div class="phone-card" style="position:relative;">
+          <div class="phone-card">
             <div class="topbar">
-              <div class="topbar-left">
-                <button class="settings-btn" id="settingsBtn">설정</button>
-              </div>
-              <div class="topbar-right">
-                <button class="mode-btn premium-only" id="modeToggleMain">다크모드</button>
-              </div>
+              <button class="settings-btn" id="settingsBtn">설정</button>
+              <button class="mode-btn premium-only" id="modeToggleMain">다크모드</button>
             </div>
-
             <div class="start-overlay" id="startOverlay">
-              <div style="text-align:center; width:100%;">
-                <button class="start-btn" id="startBtn">시작하기</button>
-                <div class="countdown-text hidden" id="countdownText">2초 후 시작됩니다...</div>
-              </div>
+              <button class="start-btn" id="startBtn">시작하기</button>
             </div>
-
-            <div class="header">
-              <div class="label">시간이 돈처럼 쌓입니다 <strong>(초당)</strong></div>
-            </div>
-
             <div class="balance-wrap">
-              <div class="balance-title" id="currencyToggle">
-                현재 잔액
-                <span class="currency-inline" id="currencyInfo">KRW (대한민국 원)</span>
-              </div>
+              <div class="balance-title" id="currencyToggle">현재 잔액 <span id="currencyInfo" class="currency-inline">KRW</span></div>
               <div class="balance" id="balance">0 ₩</div>
-              <div class="elapsed" id="elapsed">0일 00:00:00 경과</div>
-
-              <div class="mini-badge">
-                <span class="glow-dot"></span>
-                실시간 누적 중
-              </div>
+              <div id="elapsed" style="font-size:14px; color:var(--accent); font-weight:bold;">0일 경과</div>
             </div>
-
-            <div class="divider"></div>
-
             <div class="stats">
-              <div class="stat">
-                <div class="stat-title">총 누적 시간</div>
-                <div class="stat-value" id="totalSeconds">0초</div>
-              </div>
-
-              <div class="stat premium-only">
-                <div class="stat-title">오늘 증가 금액 <span class="premium-lock">PRO</span></div>
-                <div class="stat-value money-green" id="todayAmount">0 ₩</div>
-              </div>
-
-              <div class="stat premium-only">
-                <div class="stat-title">이번 주 + <span class="premium-lock">PRO</span></div>
-                <div class="stat-value small money-green" id="weekAmount">0 ₩</div>
-              </div>
-
-              <div class="stat premium-only">
-                <div class="stat-title">이번 달 + <span class="premium-lock">PRO</span></div>
-                <div class="stat-value small money-green" id="monthAmount">0 ₩</div>
-              </div>
-
-              <div class="stat premium-only">
-                <div class="stat-title">1억까지 남은 금액 <span class="premium-lock">PRO</span></div>
-                <div class="stat-value money-gold" id="remainingAmount">100,000,000 ₩</div>
-              </div>
+              <div class="stat"><div class="stat-title">총 누적 시간</div><div class="stat-value" id="totalSeconds">0초</div></div>
+              <div class="stat premium-only"><div class="stat-title">오늘 증가 금액</div><div class="stat-value money-green" id="todayAmount">0 ₩</div></div>
+              <div class="stat premium-only"><div class="stat-title">1억까지 남은 금액</div><div class="stat-value money-gold" id="remainingAmount">1억 ₩</div></div>
             </div>
-
-            <div class="button-row two premium-only" id="premiumButtons">
+            <div class="button-row premium-only">
               <button class="btn" id="resetBtn">초기화</button>
               <button class="btn" id="historyBtn">히스토리</button>
             </div>
-
-            <div class="blink-note" id="blinkNote">너무 오래 쳐다보면 눈에 피로가 쌓일 수 있습니다.
-적당히 쳐다보세요^^</div>
           </div>
         </section>
-
         <section id="historyScreen" class="screen">
           <div class="phone-card">
-            <div class="topbar">
-              <div class="topbar-left">
-                <button class="settings-btn" id="settingsBtnHistory">설정</button>
-              </div>
-              <div class="topbar-right">
-                <button class="mode-btn premium-only" id="modeToggleHistory">다크모드</button>
-              </div>
-            </div>
-
-            <div class="title-big">히스토리</div>
-            <div style="text-align:center; color:var(--sub); font-size:13px; line-height:1.7; margin-bottom:10px;">
-              초기화하거나 삭제된 기록이 저장됩니다.<br />
-              날짜 / 시간 / 분까지 표시됩니다.
-            </div>
-
-            <div id="historyList" class="history-list"></div>
-
-            <div class="button-row two">
-              <button class="btn" id="backMainBtn">메인으로</button>
-              <button class="btn premium-only" id="clearHistoryBtn">히스토리 비우기</button>
-            </div>
+            <button class="btn" id="backMainBtn" style="margin-bottom:10px;">← 돌아가기</button>
+            <div style="font-weight:900; text-align:center; margin-bottom:10px;">히스토리</div>
+            <div id="historyList" style="flex:1; overflow-y:auto; font-size:13px;"></div>
+            <button class="btn premium-only" id="clearHistoryBtn" style="margin-top:10px; color:var(--danger);">기록 비우기</button>
           </div>
         </section>
-
         <section id="settingsScreen" class="screen">
           <div class="phone-card">
-            <div class="topbar">
-              <div class="topbar-left">
-                <button class="settings-btn" id="backFromSettingsBtn">← 뒤로</button>
-              </div>
-              <div class="topbar-right">
-                <button class="mode-btn premium-only" id="modeToggleSettings">다크모드</button>
-              </div>
+            <button class="btn" id="backFromSettingsBtn" style="margin-bottom:15px;">← 뒤로 가기</button>
+            <div class="settings-card premium-only">
+              <div style="font-weight:bold; margin-bottom:10px;">색상 커스텀 (PRO)</div>
+              <div id="colorGrid" style="display:grid; gap:8px;"></div>
+              <button class="btn" id="resetThemeBtn" style="width:100%; margin-top:10px;">기본 색상 복원</button>
             </div>
-
-            <div class="title-big">설정</div>
-
-            <div class="settings-section">
-              <div class="settings-card">
-                <h3>안내문</h3>
-                <div class="settings-desc">
-                  처음 실행 시 나오는 안내문을 다시 볼 수 있습니다.
-                </div>
-                <button class="btn" id="showNoticeAgainBtn">첫 화면 문구 다시 보기</button>
-              </div>
-
-              <div class="settings-card premium-only" id="themeSettingsCard">
-                <h3>색상 변경 <span class="premium-lock">PRO</span></h3>
-                <div class="settings-desc">
-                  배경색, 글씨색, 테두리색, 버튼색 등을 세부적으로 바꿀 수 있습니다.
-                </div>
-
-                <div class="color-grid" id="colorGrid"></div>
-
-                <div class="small-btn-row">
-                  <button class="btn" id="resetThemeBtn">기본 색상 복원</button>
-                  <button class="btn" id="saveThemeBtn">색상 저장</button>
-                </div>
-              </div>
-
-              <div class="settings-card free-only" id="premiumGuideCard">
-                <h3>유료 버전 구매</h3>
-                <div class="settings-desc">
-                  유료 버전을 구매하면 아래 기능을 사용할 수 있습니다.
-                </div>
-                <div class="premium-box">
-                  • 초기화 기능<br />
-                  • 히스토리 기능<br />
-                  • 다크모드 / 일반모드<br />
-                  • 색상 변경 기능<br />
-                  • 오늘 증가 금액 표시<br />
-                  • 이번 주 + 표시<br />
-                  • 이번 달 + 표시<br />
-                  • 1억까지 남은 금액 표시
-                </div>
-                <div style="margin-top:12px;">
-                  <button class="btn" id="premiumInfoBtn">유료 버전 구매</button>
-                </div>
-              </div>
+            <div class="settings-card free-only" style="margin-top:15px; text-align:center;">
+              <button class="btn" onclick="alert('준비 중입니다.')">PRO 버전 구매</button>
             </div>
           </div>
         </section>
       </div>
     </section>
-
-    <!-- 2페이지: 상세 가이드 및 독창적 콘텐츠 (AdSense 최적화) -->
-    <section class="slide" id="page-guide" style="background:#fff; height: auto; min-height: 100vh; scroll-snap-align: start;">
+    <!-- 2페이지: 가이드 -->
+    <section class="slide" id="page-guide" style="background:#fff;">
       <div class="content-article">
         <h2>시간의 가치를 숫자로 확인하세요</h2>
-        <p>우리는 흔히 '시간은 돈이다'라는 말을 사용합니다. 하지만 그 가치를 실시간으로 체감하기란 쉽지 않습니다. '시간은돈(TimeMoney)' 앱은 사용자가 설정한 화폐 단위를 바탕으로, 흐르는 시간을 실시간 금전 가치로 환산하여 보여줌으로써 시간 관리의 중요성을 일깨워주는 혁신적인 도구입니다.</p>
-        
-        <h3>왜 시간의 시각화가 필요한가요?</h3>
-        <p>인간의 뇌는 추상적인 개념보다 구체적인 숫자에 더 민감하게 반응합니다. 단순히 '1시간이 지났다'고 생각하는 것보다, '내 소중한 가치가 이만큼 쌓였다'는 것을 눈으로 직접 확인하는 과정은 강력한 동기부여와 함께 몰입도를 높여줍니다.</p>
-        
-        <h3>주요 기능 가이드</h3>
-        <p>1. <strong>실시간 카운터</strong>: 1초 단위로 쌓이는 금액을 확인하며 현재 순간에 집중할 수 있습니다.<br>
-           2. <strong>다양한 화폐 지원</strong>: KRW, USD, JPY 등 10여 종의 글로벌 화폐 단위를 지원하여 전 세계 어디서든 사용 가능합니다.<br>
-           3. <strong>히스토리 관리</strong>: 초기화된 기록들은 히스토리에 저장되어 과거의 시간 데이터를 추적할 수 있습니다.<br>
-           4. <strong>커스텀 테마</strong>: PRO 버전을 통해 나만의 스타일로 대시보드를 꾸밀 수 있습니다.</p>
+        <p>우리는 흔히 '시간은 돈이다'라고 말합니다. '시간은돈(TimeMoney)' 앱은 흐르는 시간을 실시간 금전 가치로 환산하여 시간의 소중함을 일깨워주는 도구입니다.</p>
+        <p>다양한 화폐 단위를 지원하며, 당신의 1초가 가진 무게를 시각적으로 경험할 수 있습니다.</p>
       </div>
     </section>
-
-    <!-- 3페이지: Disqus 댓글 -->
+    <!-- 3페이지: 커뮤니티 -->
     <section class="slide" id="page2">
       <div class="disqus-section">
-        <div class="disqus-title">커뮤니티</div>
+        <h2 style="text-align:center; margin-bottom:15px;">커뮤니티</h2>
         <div id="disqus_thread"></div>
       </div>
     </section>
-
-    <!-- 4페이지: 제휴 및 푸터 -->
-    <section class="slide" id="page3" style="height: auto; min-height: 100vh; justify-content: space-between;">
-      <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
-        <div class="affiliate-link-section">
-          <h2>제휴 및 파트너십</h2>
-          <p>비즈니스 제휴 및 광고 문의를 환영합니다.</p>
-          <a href="contact.html" class="btn" style="background:#111 !important; color:#fff !important;">제휴 문의하기</a>
-        </div>
+    <!-- 4페이지: 비즈니스 -->
+    <section class="slide" id="page3">
+      <div class="affiliate-link-section">
+        <h2>제휴 및 파트너십</h2>
+        <p>비즈니스 문의를 환영합니다.</p>
+        <a href="contact.html" class="btn" style="background:#111 !important; color:#fff !important; padding:15px 40px;">문의하기</a>
       </div>
-      
       <footer class="footer">
-        <div class="footer-links">
-          <a href="privacy.html">개인정보처리방침</a>
-          <a href="contact.html">고객문의</a>
-          <a href="#">이용약관</a>
-        </div>
-        <p>&copy; 2026 TimeMoney Project. All rights reserved.</p>
-        <p style="margin-top:10px;">본 서비스는 시간 관리 보조 도구이며, 표시되는 금액은 실제 자산이 아닙니다.</p>
+        <div class="footer-links"><a href="privacy.html">개인정보처리방침</a><a href="contact.html">고객센터</a></div>
+        <p>&copy; 2026 TimeMoney Project.</p>
       </footer>
     </section>
   </div>
-
   <div class="nav-dots">
-    <div class="nav-dot active" data-page="0"></div>
-    <div class="nav-dot" data-page="1"></div>
-    <div class="nav-dot" data-page="2"></div>
-    <div class="nav-dot" data-page="3"></div>
+    <div class="nav-dot active" onclick="document.getElementById('slider').scrollTo({top:0, behavior:'smooth'})"></div>
+    <div class="nav-dot" onclick="document.getElementById('slider').scrollTo({top:window.innerHeight, behavior:'smooth'})"></div>
+    <div class="nav-dot" onclick="document.getElementById('slider').scrollTo({top:window.innerHeight*2, behavior:'smooth'})"></div>
+    <div class="nav-dot" onclick="document.getElementById('slider').scrollTo({top:window.innerHeight*3, behavior:'smooth'})"></div>
   </div>
-
-  <div id="noticeModal" class="modal-backdrop">
-    <div class="modal">
-      <div class="modal-title">환영합니다</div>
-      <div class="modal-text">이 앱은 시간이 흐르는 만큼 화폐 단위가 쌓이는 모습을 시각적으로 보여주기 위해 제작되었습니다.</div>
-      <div class="modal-close-wrap">
-        <button class="btn" id="closeNoticeBtn">닫기</button>
-      </div>
-      <label class="checkbox-row">
-        <input type="checkbox" id="dontShowAgain" />
-        <span>다시 표시하지 않기</span>
-      </label>
-    </div>
-  </div>
-
   <script>
-    var disqus_config = function () {
-      this.page.url = 'https://Honeylife77.github.io/timemoney/';
-      this.page.identifier = 'timemoney-app-index';
-    };
-
-    (function() {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://timemoney-1.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', +new Date());
-      (d.head || d.body).appendChild(s);
-    })();
-
-    const slider = document.getElementById('slider');
-    const dots = document.querySelectorAll('.nav-dot');
-
-    slider.addEventListener('scroll', () => {
-      const scrollPos = slider.scrollTop;
-      const windowHeight = window.innerHeight;
-      const pageIndex = Math.round(scrollPos / windowHeight);
-      
-      dots.forEach((dot, idx) => {
-        dot.classList.toggle('active', idx === pageIndex);
-      });
-    });
-
-    dots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        const pageIdx = parseInt(dot.getAttribute('data-page'));
-        slider.scrollTo({
-          top: pageIdx * window.innerHeight,
-          behavior: 'smooth'
-        });
-      });
-    });
-
     const IS_PREMIUM = true;
-    const STORAGE_KEY = "money_time_counter_v8";
-    const NOTICE_KEY = "money_time_notice_hidden_v8";
-    const THEME_KEY = "money_time_theme_mode_v8";
-    const CUSTOM_COLORS_KEY = "money_time_custom_colors_v8";
-    const CUSTOM_THEME_ACTIVE_KEY = "money_time_custom_theme_active_v8";
+    const STORAGE_KEY = "timemoney_v8_data";
     const TARGET = 100000000;
-
     const currencies = [
-      { country: "대한민국", code: "KRW", name: "원", full: "대한민국 원", symbol: "₩" },
-      { country: "미국", code: "USD", name: "달러", full: "미국 달러", symbol: "$" },
-      { country: "일본", code: "JPY", name: "엔", full: "일본 엔", symbol: "¥" },
-      { country: "중국", code: "CNY", name: "위안", full: "중국 위안", symbol: "¥" },
-      { country: "유럽연합", code: "EUR", name: "유로", full: "유로", symbol: "€" },
-      { country: "영국", code: "GBP", name: "파운드", full: "영국 파운드", symbol: "£" },
-      { country: "인도", code: "INR", name: "루피", full: "인도 루피", symbol: "₹" },
-      { country: "캐나다", code: "CAD", name: "달러", full: "캐나다 달러", symbol: "C$" },
-      { country: "호주", code: "AUD", name: "달러", full: "호주 달러", symbol: "A$" },
-      { country: "스위스", code: "CHF", name: "프랑", full: "스위스 프랑", symbol: "CHF" }
+      { code: "KRW", symbol: "₩", full: "대한민국 원" },
+      { code: "USD", symbol: "$", full: "미국 달러" },
+      { code: "JPY", symbol: "¥", full: "일본 엔" },
+      { code: "EUR", symbol: "€", full: "유로" }
     ];
+    let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || { startedAt: null, running: false, currencyIndex: 0, history: [] };
+    const saveData = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 
-    function loadData() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) { try { return JSON.parse(saved); } catch (e) { return getDefaultData(); } }
-      return getDefaultData();
-    }
-    function getDefaultData() { return { startedAt: null, running: false, pendingStart: false, currencyIndex: 0, history: [] }; }
-    
-    let data = loadData();
-    function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
-
-    const mainScreen = document.getElementById("mainScreen");
-    const historyScreen = document.getElementById("historyScreen");
-    const settingsScreen = document.getElementById("settingsScreen");
-    const balanceEl = document.getElementById("balance");
-    const elapsedEl = document.getElementById("elapsed");
-    const totalSecondsEl = document.getElementById("totalSeconds");
-    const currencyInfo = document.getElementById("currencyInfo");
-    const startBtn = document.getElementById("startBtn");
-    const startOverlay = document.getElementById("startOverlay");
-
-    function showScreen(screenId) {
-      [mainScreen, historyScreen, settingsScreen].forEach(el => el.classList.remove("active"));
-      document.getElementById(screenId).classList.add("active");
-      const page1 = document.getElementById('page1');
-      if (screenId === 'settingsScreen') page1.classList.add('expanded');
-      else page1.classList.remove('expanded');
-    }
+    const elements = {
+      balance: document.getElementById("balance"), elapsed: document.getElementById("elapsed"),
+      totalSeconds: document.getElementById("totalSeconds"), todayAmount: document.getElementById("todayAmount"),
+      remainingAmount: document.getElementById("remainingAmount"), currencyInfo: document.getElementById("currencyInfo"),
+      startOverlay: document.getElementById("startOverlay"), historyList: document.getElementById("historyList"),
+      colorGrid: document.getElementById("colorGrid")
+    };
 
     function updateUI() {
       const now = Date.now();
-      const elapsedSeconds = (data.running && data.startedAt) ? Math.floor((now - data.startedAt) / 1000) : 0;
-      const currency = currencies[data.currencyIndex || 0];
-      
-      currencyInfo.textContent = `${currency.code} (${currency.full})`;
-      balanceEl.textContent = `${elapsedSeconds.toLocaleString()} ${currency.symbol}`;
-      elapsedEl.textContent = `${Math.floor(elapsedSeconds/86400)}일 경과`;
-      totalSecondsEl.textContent = `${elapsedSeconds}초`;
-
-      if (!data.running && !data.pendingStart) startOverlay.classList.remove("hidden");
-      else startOverlay.classList.add("hidden");
+      const elapsedSeconds = data.running ? Math.floor((now - data.startedAt) / 1000) : 0;
+      const currency = currencies[data.currencyIndex];
+      elements.balance.textContent = `${elapsedSeconds.toLocaleString()} ${currency.symbol}`;
+      elements.elapsed.textContent = `${Math.floor(elapsedSeconds/86400)}일 경과`;
+      elements.totalSeconds.textContent = `${elapsedSeconds.toLocaleString()}초`;
+      elements.currencyInfo.textContent = currency.code;
+      if (elements.todayAmount) elements.todayAmount.textContent = `${elapsedSeconds.toLocaleString()} ${currency.symbol}`;
+      if (elements.remainingAmount) elements.remainingAmount.textContent = `${(TARGET - elapsedSeconds).toLocaleString()} ${currency.symbol}`;
+      elements.startOverlay.classList.toggle("hidden", data.running);
     }
 
-    startBtn.addEventListener("click", () => {
-      data.startedAt = Date.now();
-      data.running = true;
-      saveData();
-      updateUI();
-    });
+    const showScreen = (id) => {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      document.getElementById("page1").classList.toggle("expanded", id === "settingsScreen");
+    };
 
-    document.getElementById("settingsBtn").addEventListener("click", () => showScreen("settingsScreen"));
-    document.getElementById("backFromSettingsBtn").addEventListener("click", () => showScreen("mainScreen"));
+    document.getElementById("startBtn").onclick = () => { data.startedAt = Date.now(); data.running = true; saveData(); updateUI(); };
+    document.getElementById("settingsBtn").onclick = () => showScreen("settingsScreen");
+    document.getElementById("backFromSettingsBtn").onclick = () => showScreen("mainScreen");
+    document.getElementById("historyBtn").onclick = () => {
+      elements.historyList.innerHTML = data.history.length ? "" : "<p style='text-align:center; padding:20px;'>기록이 없습니다.</p>";
+      data.history.slice().reverse().forEach(h => {
+        const item = document.createElement("div"); item.className = "history-item";
+        item.innerHTML = `<strong>${h.type}</strong> <small>${h.time}</small><br>${h.amount}`;
+        elements.historyList.appendChild(item);
+      });
+      showScreen("historyScreen");
+    };
+    document.getElementById("backMainBtn").onclick = () => showScreen("mainScreen");
+    document.getElementById("resetBtn").onclick = () => {
+      if(!confirm("기록을 저장하고 초기화할까요?")) return;
+      data.history.push({ type: "초기화", time: new Date().toLocaleString(), amount: elements.balance.textContent });
+      data.startedAt = null; data.running = false; saveData(); updateUI();
+    };
+    document.getElementById("currencyToggle").onclick = () => { data.currencyIndex = (data.currencyIndex + 1) % currencies.length; saveData(); updateUI(); };
+    elements.balance.onclick = document.getElementById("currencyToggle").onclick;
+
+    const toggleTheme = () => {
+      const mode = localStorage.getItem("theme") === "dark" ? "light" : "dark";
+      localStorage.setItem("theme", mode);
+      document.documentElement.style.setProperty("--card", mode === "dark" ? "#171717" : "#ffffff");
+      document.documentElement.style.setProperty("--text", mode === "dark" ? "#ffffff" : "#111111");
+      document.documentElement.style.setProperty("--bg", mode === "dark" ? "#000000" : "#f7f7f7");
+      document.querySelectorAll(".mode-btn").forEach(b => b.textContent = mode === "dark" ? "일반모드" : "다크모드");
+    };
+    document.querySelectorAll(".mode-btn").forEach(b => b.onclick = toggleTheme);
 
     function init() {
-      updateUI();
-      setInterval(updateUI, 1000);
+      document.querySelectorAll(".premium-only").forEach(el => el.style.display = IS_PREMIUM ? "" : "none");
+      document.querySelectorAll(".free-only").forEach(el => el.style.display = IS_PREMIUM ? "none" : "");
+      updateUI(); setInterval(updateUI, 1000);
     }
     init();
+    (function() { var d = document, s = d.createElement('script'); s.src = 'https://timemoney-1.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })();
   </script>
 </body>
 </html>
