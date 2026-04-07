@@ -65,6 +65,14 @@
       align-items: center;
       padding: 20px;
       position: relative;
+      transition: height 0.3s ease;
+    }
+
+    /* 설정 화면 진입 시 높이 확장 */
+    .slide.expanded {
+      height: 200vh;
+      justify-content: flex-start;
+      padding-top: 60px;
     }
 
     .app {
@@ -88,6 +96,11 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
+    }
+
+    /* 설정 화면 내 카드 최소 높이 해제 */
+    #settingsScreen .phone-card {
+      min-height: auto;
     }
 
     .phone-card::before {
@@ -610,7 +623,12 @@
       text-align: center;
     }
 
-    /* 제휴 문의 섹션 */
+    /* 제휴 및 파트너십 페이지: 항상 밝은 테마 유지 */
+    #page3 {
+      background: #ffffff !important; /* 고정 흰색 배경 */
+      color: #111111 !important; /* 고정 검은 글씨 */
+    }
+
     .affiliate-link-section {
       text-align: center;
       display: flex;
@@ -623,11 +641,12 @@
       font-size: 28px;
       font-weight: 900;
       margin-bottom: 10px;
+      color: #111111 !important;
     }
 
     .affiliate-link-section p {
       font-size: 15px;
-      color: var(--sub);
+      color: #666666 !important;
       margin-bottom: 20px;
     }
 
@@ -636,6 +655,9 @@
       padding: 16px 40px;
       font-size: 18px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      background: #ffffff !important;
+      color: #111111 !important;
+      border: 1px solid rgba(0,0,0,0.1) !important;
     }
 
     /* 페이지 안내 네비게이션 (인디케이터) */
@@ -668,7 +690,7 @@
 
 <body>
   <div class="slider-container" id="slider">
-    <!-- 1페이지: 앱 메인 -->
+    <!-- 1페이지: 앱 메인 (설정 시 2페이지 분량 확장 가능) -->
     <section class="slide" id="page1">
       <div class="app">
         <section id="mainScreen" class="screen active">
@@ -841,7 +863,7 @@
       </div>
     </section>
 
-    <!-- 3페이지: 제휴 문의하기 -->
+    <!-- 3페이지: 제휴 문의하기 (색상 고정) -->
     <section class="slide" id="page3">
       <div class="affiliate-link-section">
         <h2>제휴 및 파트너십</h2>
@@ -900,17 +922,41 @@
     const dots = document.querySelectorAll('.nav-dot');
 
     slider.addEventListener('scroll', () => {
-      const pageIndex = Math.round(slider.scrollTop / window.innerHeight);
+      // expanded 상태일 때 계산 보정
+      const page1 = document.getElementById('page1');
+      const p1Height = page1.offsetHeight;
+      const scrollPos = slider.scrollTop;
+      
+      let pageIndex = 0;
+      if (scrollPos < p1Height / 2) {
+        pageIndex = 0;
+      } else if (scrollPos < p1Height + window.innerHeight / 2) {
+        pageIndex = 1;
+      } else {
+        pageIndex = 2;
+      }
+      
+      // dot 인덱스 업데이트
+      const dotIndex = scrollPos >= p1Height ? (Math.round((scrollPos - p1Height) / window.innerHeight) + 1) : 0;
+
       dots.forEach((dot, idx) => {
-        dot.classList.toggle('active', idx === pageIndex);
+        dot.classList.toggle('active', idx === dotIndex);
       });
     });
 
     dots.forEach(dot => {
       dot.addEventListener('click', () => {
-        const page = dot.getAttribute('data-page');
+        const pageIdx = parseInt(dot.getAttribute('data-page'));
+        const page1 = document.getElementById('page1');
+        const p1Height = page1.offsetHeight;
+        
+        let targetTop = 0;
+        if (pageIdx === 0) targetTop = 0;
+        else if (pageIdx === 1) targetTop = p1Height;
+        else targetTop = p1Height + window.innerHeight;
+
         slider.scrollTo({
-          top: page * window.innerHeight,
+          top: targetTop,
           behavior: 'smooth'
         });
       });
@@ -1176,6 +1222,13 @@
     function showScreen(screenId) {
       [mainScreen, historyScreen, settingsScreen].forEach(el => el.classList.remove("active"));
       document.getElementById(screenId).classList.add("active");
+      
+      const page1 = document.getElementById('page1');
+      if (screenId === 'settingsScreen') {
+        page1.classList.add('expanded');
+      } else {
+        page1.classList.remove('expanded');
+      }
     }
 
     function formatMoney(num) {
