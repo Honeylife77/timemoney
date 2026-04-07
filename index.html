@@ -1,220 +1,1607 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>시간은돈(TimeMoney) - 실시간 시간 가치 시각화 서비스</title>
-  <meta name="description" content="흐르는 시간을 금전적 가치로 환산하여 보여주는 실시간 시간 관리 도구입니다. 시간의 소중함을 시각적으로 경험하고 효율적으로 일정을 관리해보세요." />
-  <meta name="keywords" content="시간관리, 동기부여, 시간은돈, 타임카운터, 자기계발, 자산관리" />
+  <title>시간은돈(TimeMoney)</title>
   <meta name="theme-color" content="#ffffff" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8474406720389792" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8474406720389792"
+     crossorigin="anonymous"></script>
   <meta name="google-adsense-account" content="ca-pub-8474406720389792">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg: #f7f7f7; --bg2: #ffffff; --card: #ffffff; --card-2: #ffffff; --line: rgba(0,0,0,0.08);
-      --text: #111111; --sub: rgba(0,0,0,0.68); --muted: rgba(0,0,0,0.5); --accent: #d4af37;
-      --green: #0f9f85; --danger: #d9534f; --shadow: 0 14px 36px rgba(0,0,0,0.10);
+      --bg: #f7f7f7;
+      --bg2: #ffffff;
+      --card: #ffffff;
+      --card-2: #ffffff;
+      --line: rgba(0,0,0,0.08);
+      --text: #111111;
+      --sub: rgba(0,0,0,0.68);
+      --muted: rgba(0,0,0,0.5);
+      --accent: #d4af37;
+      --accent-soft: rgba(212,175,55,0.12);
+      --green: #0f9f85;
+      --danger: #d9534f;
+      --shadow: 0 14px 36px rgba(0,0,0,0.10);
+      --radius: 24px;
+      --btn-dark: #111827;
       --page-bg: radial-gradient(circle at top, #ffffff 0%, #f6f6f6 55%, #efefef 100%);
-      --main-value: #111111; --button-bg: #ffffff; --button-text: #111111; --button-border: rgba(0,0,0,0.10);
+      --blink: #111111;
+      --main-value: #111111;
+      --button-bg: #ffffff;
+      --button-text: #111111;
+      --button-border: rgba(0,0,0,0.10);
     }
-    html, body { width: 100%; height: 100%; color: var(--text); font-family: "Apple SD Gothic Neo", sans-serif; overflow: hidden; background: var(--page-bg); transition: all 0.25s ease; }
-    .slider-container { width: 100%; height: 100vh; overflow-y: auto; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
-    .slide { width: 100%; height: 100vh; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; transition: height 0.3s ease; }
-    .slide.expanded { height: 200vh; justify-content: flex-start; padding-top: 60px; }
-    .app { width: 100%; max-width: 430px; }
-    .screen { display: none; } .screen.active { display: block; }
-    .phone-card { background: var(--card); border: 1px solid var(--line); border-radius: 30px; padding: 20px; box-shadow: var(--shadow); position: relative; min-height: 80vh; display: flex; flex-direction: column; }
-    .topbar { display: flex; justify-content: space-between; margin-bottom: 10px; z-index: 2; }
-    .mode-btn, .settings-btn { border: 1px solid var(--button-border); background: var(--button-bg); color: var(--button-text); padding: 8px 12px; border-radius: 12px; font-size: 12px; font-weight: 800; cursor: pointer; }
-    .balance-wrap { text-align: center; margin: 20px 0; flex: 1; display: flex; flex-direction: column; justify-content: center; }
-    .balance-title { font-size: 14px; color: var(--sub); cursor: pointer; }
-    .balance { font-size: clamp(34px, 8vw, 48px); font-weight: 800; color: var(--main-value); margin: 10px 0; cursor: pointer; }
-    .stats { display: grid; gap: 10px; margin-bottom: 20px; }
-    .stat { padding: 12px; border-radius: 18px; background: var(--card-2); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px; }
-    .stat-title { font-size: 12px; color: var(--muted); }
-    .stat-value { font-size: 20px; font-weight: 800; }
-    .money-green { color: var(--green); } .money-gold { color: var(--accent); }
-    .button-row { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
-    .btn { padding: 14px; border-radius: 16px; border: 1px solid var(--button-border); background: var(--button-bg); color: var(--button-text); font-weight: 800; cursor: pointer; text-align: center; }
-    .start-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 10; border-radius: 30px; }
-    .start-btn { width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--accent); background: #fff; color: #111; font-size: 24px; font-weight: 900; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-    #page2, #page3 { background: #ffffff !important; color: #111111 !important; }
-    .disqus-section { width: 100%; max-width: 430px; padding: 20px; background: #fff; border-radius: 30px; border: 1px solid #eee; }
-    .footer { width: 100%; padding: 30px; text-align: center; font-size: 12px; color: #999; }
-    .footer-links { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; }
-    .footer-links a { color: #666; text-decoration: none; font-weight: bold; }
-    .nav-dots { position: fixed; right: 15px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 100; }
-    .nav-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(0,0,0,0.2); cursor: pointer; }
-    .nav-dot.active { background: var(--accent); transform: scale(1.3); }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      color: var(--text);
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
+      overflow: hidden; /* 슬라이더 외부 스크롤 방지 */
+      background: var(--page-bg);
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    /* 슬라이더 컨테이너 */
+    .slider-container {
+      width: 100%;
+      height: 100vh;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    /* 각 슬라이드 페이지 */
+    .slide {
+      width: 100%;
+      height: 100vh;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+      transition: height 0.3s ease;
+    }
+
+    /* 설정 화면 진입 시 높이 확장 */
+    .slide.expanded {
+      height: 200vh;
+      justify-content: flex-start;
+      padding-top: 60px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .phone-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    /* 설정 화면 내 카드 최소 높이 해제 */
+    #settingsScreen .phone-card {
+      min-height: auto;
+    }
+
+    .phone-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 10%, rgba(212,175,55,0.07), transparent 35%);
+      pointer-events: none;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      position: relative;
+      z-index: 2;
+      gap: 8px;
+    }
+
+    .topbar-left, .topbar-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .mode-btn, .settings-btn {
+      border: 1px solid var(--button-border);
+      background: var(--button-bg);
+      color: var(--button-text);
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header .label {
+      font-size: 14px;
+      color: var(--sub);
+      letter-spacing: 0.2px;
+      margin-bottom: 4px;
+      line-height: 1.45;
+    }
+
+    .header .label strong {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .title-big {
+      font-size: 26px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 10px;
+      letter-spacing: -0.7px;
+    }
+
+    .balance-wrap {
+      text-align: center;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+      min-height: 185px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .balance-title {
+      font-size: 14px;
+      color: var(--sub);
+      margin-bottom: 8px;
+      cursor: pointer;
+      user-select: none;
+      line-height: 1.6;
+    }
+
+    .currency-inline {
+      color: var(--accent);
+      font-weight: 800;
+      margin-left: 6px;
+      font-size: 13px;
+      display: inline-block;
+    }
+
+    .balance {
+      font-size: clamp(34px, 8vw, 48px);
+      font-weight: 800;
+      letter-spacing: -1.3px;
+      color: var(--main-value);
+      line-height: 1.05;
+      text-shadow: 0 0 18px rgba(212,175,55,0.08);
+      word-break: keep-all;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .elapsed {
+      margin-top: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: -0.2px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--line), transparent);
+      margin: 12px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stats {
+      display: grid;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 11px 13px;
+      border-radius: 18px;
+      background: var(--card-2);
+      border: 1px solid var(--line);
+    }
+
+    .stat-title {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    .stat-value {
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--main-value);
+      line-height: 1.1;
+      word-break: break-word;
+    }
+
+    .stat-value.small { font-size: 20px; }
+
+    .money-green { color: var(--green); }
+    .money-gold { color: var(--accent); }
+
+    .mini-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(212,175,55,0.10);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid rgba(212,175,55,0.18);
+      align-self: center;
+    }
+
+    .glow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(212,175,55,0.8);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.25); opacity: 0.65; }
+    }
+
+    .button-row {
+      display: grid;
+      gap: 9px;
+      margin-top: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .button-row.two {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      text-align: center;
+      appearance: none;
+      border: 1px solid var(--button-border);
+      outline: none;
+      cursor: pointer;
+      border-radius: 16px;
+      padding: 12px 12px;
+      font-size: 13px;
+      font-weight: 800;
+      transition: 0.18s ease;
+      background: var(--button-bg);
+      color: var(--button-text);
+    }
+
+    .btn:active { transform: scale(0.98); }
+
+    .blink-note {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--blink);
+      animation: blinkText 1.4s infinite;
+      white-space: pre-line;
+      position: relative;
+      z-index: 1;
+      min-height: 40px;
+    }
+
+    @keyframes blinkText {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.28; }
+    }
+
+    .history-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .history-item {
+      background: var(--card-2);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px 13px;
+      line-height: 1.65;
+      font-size: 13px;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 24px 10px 8px;
+      line-height: 1.7;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.74);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 9999;
+    }
+
+    .modal-backdrop.show { display: flex; }
+
+    .modal {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 28px;
+      padding: 24px 20px 56px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+      color: #111;
+      position: relative;
+    }
+
+    .modal-title {
+      font-size: 22px;
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .modal-text {
+      color: rgba(0,0,0,0.72);
+      font-size: 14px;
+      line-height: 1.95;
+      white-space: pre-line;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .modal-close-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .modal-close-wrap .btn {
+      background: #ffffff;
+      color: #111111;
+      border: 1px solid rgba(0,0,0,0.12);
+      min-width: 120px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: rgba(0,0,0,0.62);
+      justify-content: flex-start;
+      position: absolute;
+      left: 20px;
+      bottom: 16px;
+    }
+
+    .checkbox-row input {
+      width: 16px;
+      height: 16px;
+      accent-color: #ffffff;
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.2);
+      appearance: auto;
+    }
+
+    .start-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 5;
+      background: transparent;
+    }
+
+    .start-btn {
+      width: 50%;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      border: 2px solid rgba(212,175,55,0.35);
+      background: #ffffff;
+      color: #111;
+      font-size: 28px;
+      font-weight: 900;
+      box-shadow: 0 18px 40px rgba(212,175,55,0.22);
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .start-btn:active {
+      transform: scale(0.97);
+    }
+
+    .countdown-text {
+      margin-top: 16px;
+      text-align: center;
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
     .hidden { display: none !important; }
+
+    .settings-section {
+      margin-top: 10px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .settings-card {
+      border: 1px solid var(--line);
+      background: var(--card-2);
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .settings-card h3 {
+      font-size: 15px;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .settings-desc {
+      font-size: 12px;
+      color: var(--sub);
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    .color-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .color-item {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .color-item:last-child {
+      border-bottom: none;
+    }
+
+    .color-item label {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .color-item input[type="color"] {
+      width: 42px;
+      height: 34px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .color-item input[type="text"] {
+      width: 98px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--button-bg);
+      color: var(--button-text);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .small-btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .premium-lock {
+      display: inline-block;
+      margin-left: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .premium-box {
+      border: 1px dashed var(--accent);
+      background: rgba(212,175,55,0.08);
+      border-radius: 18px;
+      padding: 14px;
+      line-height: 1.8;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    @media (max-width: 390px) {
+      .phone-card {
+        padding: 16px 14px 16px;
+        border-radius: 26px;
+        min-height: auto;
+      }
+
+      .stat-value { font-size: 21px; }
+      .stat-value.small { font-size: 18px; }
+
+      .button-row,
+      .button-row.two,
+      .small-btn-row {
+        grid-template-columns: 1fr;
+      }
+
+      .start-btn {
+        width: 58%;
+        font-size: 24px;
+      }
+
+      .color-item {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .color-item input[type="text"] {
+        width: 100%;
+      }
+    }
+
+    /* Disqus 및 제휴 파트너십 페이지: 항상 밝은 테마 유지 */
+    #page2, #page3 {
+      background: #ffffff !important; /* 고정 흰색 배경 */
+      color: #111111 !important; /* 고정 검은 글씨 */
+    }
+
+    .disqus-section {
+      width: 100%;
+      max-width: 430px;
+      padding: 24px;
+      background: #ffffff !important; /* 고정 흰색 배경 */
+      border: 1px solid #dcdcdc !important; /* 고정 테두리 */
+      border-radius: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      min-height: 400px;
+    }
+
+    .affiliate-link-section {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .affiliate-link-section h2 {
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 10px;
+      color: #111111 !important;
+    }
+
+    .affiliate-link-section p {
+      font-size: 15px;
+      color: #666666 !important;
+      margin-bottom: 20px;
+    }
+
+    .affiliate-link-section .btn {
+      width: auto;
+      padding: 16px 40px;
+      font-size: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      background: #ffffff !important;
+      color: #111111 !important;
+      border: 1px solid rgba(0,0,0,0.1) !important;
+    }
+
+    /* 페이지 안내 네비게이션 (인디케이터) */
+    .nav-dots {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 100;
+    }
+
+    .nav-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--muted);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .nav-dot.active {
+      background: var(--accent);
+      transform: scale(1.3);
+    }
   </style>
 </head>
+
 <body>
   <div class="slider-container" id="slider">
-    <!-- 1페이지: 앱 메인 -->
+    <!-- 1페이지: 앱 메인 (설정 시 2페이지 분량 확장 가능) -->
     <section class="slide" id="page1">
       <div class="app">
         <section id="mainScreen" class="screen active">
-          <div class="phone-card">
+          <div class="phone-card" style="position:relative;">
             <div class="topbar">
-              <button class="settings-btn" id="settingsBtn">설정</button>
-              <button class="mode-btn premium-only" id="modeToggleMain">다크모드</button>
+              <div class="topbar-left">
+                <button class="settings-btn" id="settingsBtn">설정</button>
+              </div>
+              <div class="topbar-right">
+                <button class="mode-btn premium-only" id="modeToggleMain">다크모드</button>
+              </div>
             </div>
+
             <div class="start-overlay" id="startOverlay">
-              <button class="start-btn" id="startBtn">시작하기</button>
+              <div style="text-align:center; width:100%;">
+                <button class="start-btn" id="startBtn">시작하기</button>
+                <div class="countdown-text hidden" id="countdownText">2초 후 시작됩니다...</div>
+              </div>
             </div>
+
+            <div class="header">
+              <div class="label">시간이 돈처럼 쌓입니다 <strong>(초당)</strong></div>
+            </div>
+
             <div class="balance-wrap">
-              <div class="balance-title" id="currencyToggle">현재 잔액 <span id="currencyInfo" class="currency-inline">KRW</span></div>
+              <div class="balance-title" id="currencyToggle">
+                현재 잔액
+                <span class="currency-inline" id="currencyInfo">KRW (대한민국 원)</span>
+              </div>
               <div class="balance" id="balance">0 ₩</div>
-              <div id="elapsed" style="font-size:14px; color:var(--accent); font-weight:bold;">0일 경과</div>
+              <div class="elapsed" id="elapsed">0일 00:00:00 경과</div>
+
+              <div class="mini-badge">
+                <span class="glow-dot"></span>
+                실시간 누적 중
+              </div>
             </div>
+
+            <div class="divider"></div>
+
             <div class="stats">
-              <div class="stat"><div class="stat-title">총 누적 시간</div><div class="stat-value" id="totalSeconds">0초</div></div>
-              <div class="stat premium-only"><div class="stat-title">오늘 증가 금액</div><div class="stat-value money-green" id="todayAmount">0 ₩</div></div>
-              <div class="stat premium-only"><div class="stat-title">1억까지 남은 금액</div><div class="stat-value money-gold" id="remainingAmount">1억 ₩</div></div>
+              <div class="stat">
+                <div class="stat-title">총 누적 시간</div>
+                <div class="stat-value" id="totalSeconds">0초</div>
+              </div>
+
+              <div class="stat premium-only">
+                <div class="stat-title">오늘 증가 금액 <span class="premium-lock">PRO</span></div>
+                <div class="stat-value money-green" id="todayAmount">0 ₩</div>
+              </div>
+
+              <div class="stat premium-only">
+                <div class="stat-title">이번 주 + <span class="premium-lock">PRO</span></div>
+                <div class="stat-value small money-green" id="weekAmount">0 ₩</div>
+              </div>
+
+              <div class="stat premium-only">
+                <div class="stat-title">이번 달 + <span class="premium-lock">PRO</span></div>
+                <div class="stat-value small money-green" id="monthAmount">0 ₩</div>
+              </div>
+
+              <div class="stat premium-only">
+                <div class="stat-title">1억까지 남은 금액 <span class="premium-lock">PRO</span></div>
+                <div class="stat-value money-gold" id="remainingAmount">100,000,000 ₩</div>
+              </div>
             </div>
-            <div class="button-row premium-only">
+
+            <div class="button-row two premium-only" id="premiumButtons">
               <button class="btn" id="resetBtn">초기화</button>
               <button class="btn" id="historyBtn">히스토리</button>
             </div>
+
+            <div class="blink-note" id="blinkNote">너무 오래 쳐다보면 눈에 피로가 쌓일 수 있습니다.
+적당히 쳐다보세요^^</div>
           </div>
         </section>
+
         <section id="historyScreen" class="screen">
           <div class="phone-card">
-            <button class="btn" id="backMainBtn" style="margin-bottom:10px;">← 돌아가기</button>
-            <div style="font-weight:900; text-align:center; margin-bottom:10px;">히스토리</div>
-            <div id="historyList" style="flex:1; overflow-y:auto; font-size:13px;"></div>
-            <button class="btn premium-only" id="clearHistoryBtn" style="margin-top:10px; color:var(--danger);">기록 비우기</button>
+            <div class="topbar">
+              <div class="topbar-left">
+                <button class="settings-btn" id="settingsBtnHistory">설정</button>
+              </div>
+              <div class="topbar-right">
+                <button class="mode-btn premium-only" id="modeToggleHistory">다크모드</button>
+              </div>
+            </div>
+
+            <div class="title-big">히스토리</div>
+            <div style="text-align:center; color:var(--sub); font-size:13px; line-height:1.7; margin-bottom:10px;">
+              초기화하거나 삭제된 기록이 저장됩니다.<br />
+              날짜 / 시간 / 분까지 표시됩니다.
+            </div>
+
+            <div id="historyList" class="history-list"></div>
+
+            <div class="button-row two">
+              <button class="btn" id="backMainBtn">메인으로</button>
+              <button class="btn premium-only" id="clearHistoryBtn">히스토리 비우기</button>
+            </div>
           </div>
         </section>
+
         <section id="settingsScreen" class="screen">
           <div class="phone-card">
-            <button class="btn" id="backFromSettingsBtn" style="margin-bottom:15px;">← 뒤로 가기</button>
-            <div class="settings-card premium-only">
-              <div style="font-weight:bold; margin-bottom:10px;">색상 커스텀 (PRO)</div>
-              <div id="colorGrid" style="display:grid; gap:8px;"></div>
-              <button class="btn" id="resetThemeBtn" style="width:100%; margin-top:10px;">기본 색상 복원</button>
+            <div class="topbar">
+              <div class="topbar-left">
+                <button class="settings-btn" id="backFromSettingsBtn">← 뒤로</button>
+              </div>
+              <div class="topbar-right">
+                <button class="mode-btn premium-only" id="modeToggleSettings">다크모드</button>
+              </div>
             </div>
-            <div class="settings-card free-only" style="margin-top:15px; text-align:center;">
-              <button class="btn" onclick="alert('준비 중입니다.')">PRO 버전 구매</button>
+
+            <div class="title-big">설정</div>
+
+            <div class="settings-section">
+              <div class="settings-card">
+                <h3>안내문</h3>
+                <div class="settings-desc">
+                  처음 실행 시 나오는 안내문을 다시 볼 수 있습니다.
+                </div>
+                <button class="btn" id="showNoticeAgainBtn">첫 화면 문구 다시 보기</button>
+              </div>
+
+              <div class="settings-card premium-only" id="themeSettingsCard">
+                <h3>색상 변경 <span class="premium-lock">PRO</span></h3>
+                <div class="settings-desc">
+                  배경색, 글씨색, 테두리색, 버튼색 등을 세부적으로 바꿀 수 있습니다.
+                </div>
+
+                <div class="color-grid" id="colorGrid"></div>
+
+                <div class="small-btn-row">
+                  <button class="btn" id="resetThemeBtn">기본 색상 복원</button>
+                  <button class="btn" id="saveThemeBtn">색상 저장</button>
+                </div>
+              </div>
+
+              <div class="settings-card free-only" id="premiumGuideCard">
+                <h3>유료 버전 구매</h3>
+                <div class="settings-desc">
+                  유료 버전을 구매하면 아래 기능을 사용할 수 있습니다.
+                </div>
+                <div class="premium-box">
+                  • 초기화 기능<br />
+                  • 히스토리 기능<br />
+                  • 다크모드 / 일반모드<br />
+                  • 색상 변경 기능<br />
+                  • 오늘 증가 금액 표시<br />
+                  • 이번 주 + 표시<br />
+                  • 이번 달 + 표시<br />
+                  • 1억까지 남은 금액 표시
+                </div>
+                <div style="margin-top:12px;">
+                  <button class="btn" id="premiumInfoBtn">유료 버전 구매</button>
+                </div>
+              </div>
             </div>
           </div>
         </section>
       </div>
     </section>
-    <!-- 2페이지: 가이드 -->
-    <section class="slide" id="page-guide" style="background:#fff;">
-      <div class="content-article">
-        <h2>시간의 가치를 숫자로 확인하세요</h2>
-        <p>우리는 흔히 '시간은 돈이다'라고 말합니다. '시간은돈(TimeMoney)' 앱은 흐르는 시간을 실시간 금전 가치로 환산하여 시간의 소중함을 일깨워주는 도구입니다.</p>
-        <p>다양한 화폐 단위를 지원하며, 당신의 1초가 가진 무게를 시각적으로 경험할 수 있습니다.</p>
-      </div>
-    </section>
-    <!-- 3페이지: 커뮤니티 -->
+
+    <!-- 2페이지: Disqus 댓글 -->
     <section class="slide" id="page2">
       <div class="disqus-section">
-        <h2 style="text-align:center; margin-bottom:15px;">커뮤니티</h2>
+        <div class="disqus-title">커뮤니티</div>
         <div id="disqus_thread"></div>
       </div>
     </section>
-    <!-- 4페이지: 비즈니스 -->
+
+    <!-- 3페이지: 제휴 문의하기 (색상 고정) -->
     <section class="slide" id="page3">
       <div class="affiliate-link-section">
         <h2>제휴 및 파트너십</h2>
-        <p>비즈니스 문의를 환영합니다.</p>
-        <a href="contact.html" class="btn" style="background:#111 !important; color:#fff !important; padding:15px 40px;">문의하기</a>
+        <p>비즈니스 제휴 및 광고 문의를 환영합니다.</p>
+        <a href="contact.html" class="btn">제휴 문의하기</a>
       </div>
-      <footer class="footer">
-        <div class="footer-links"><a href="privacy.html">개인정보처리방침</a><a href="contact.html">고객센터</a></div>
-        <p>&copy; 2026 TimeMoney Project.</p>
-      </footer>
     </section>
   </div>
-  <div class="nav-dots">
-    <div class="nav-dot active" onclick="document.getElementById('slider').scrollTo({top:0, behavior:'smooth'})"></div>
-    <div class="nav-dot" onclick="document.getElementById('slider').scrollTo({top:window.innerHeight, behavior:'smooth'})"></div>
-    <div class="nav-dot" onclick="document.getElementById('slider').scrollTo({top:window.innerHeight*2, behavior:'smooth'})"></div>
-    <div class="nav-dot" onclick="document.getElementById('slider').scrollTo({top:window.innerHeight*3, behavior:'smooth'})"></div>
-  </div>
-  <script>
-    const IS_PREMIUM = true;
-    const STORAGE_KEY = "timemoney_v8_data";
-    const TARGET = 100000000;
-    const currencies = [
-      { code: "KRW", symbol: "₩", full: "대한민국 원" },
-      { code: "USD", symbol: "$", full: "미국 달러" },
-      { code: "JPY", symbol: "¥", full: "일본 엔" },
-      { code: "EUR", symbol: "€", full: "유로" }
-    ];
-    let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || { startedAt: null, running: false, currencyIndex: 0, history: [] };
-    const saveData = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 
-    const elements = {
-      balance: document.getElementById("balance"), elapsed: document.getElementById("elapsed"),
-      totalSeconds: document.getElementById("totalSeconds"), todayAmount: document.getElementById("todayAmount"),
-      remainingAmount: document.getElementById("remainingAmount"), currencyInfo: document.getElementById("currencyInfo"),
-      startOverlay: document.getElementById("startOverlay"), historyList: document.getElementById("historyList"),
-      colorGrid: document.getElementById("colorGrid")
+  <!-- 페이지 네비게이션 도트 -->
+  <div class="nav-dots">
+    <div class="nav-dot active" data-page="0"></div>
+    <div class="nav-dot" data-page="1"></div>
+    <div class="nav-dot" data-page="2"></div>
+  </div>
+
+  <div id="noticeModal" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-title">환영합니다</div>
+      <div class="modal-text">이 앱은 시간이 흐르는 만큼 화폐
+단위가 쌓이는 모습을 시각적으로 보여주기 위해
+제작되었습니다.
+
+이 앱에 표시되는 금액은 실제 자산이나 수익이 아니며,
+시간의 흐름을 숫자로 표현한 기록용 수치입니다.
+
+시간의 소중함을 느껴보세요</div>
+
+      <div class="modal-close-wrap">
+        <button class="btn" id="closeNoticeBtn">닫기</button>
+      </div>
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="dontShowAgain" />
+        <span>다시 표시하지 않기</span>
+      </label>
+    </div>
+  </div>
+
+  <script>
+    /** Disqus 설정 **/
+    var disqus_config = function () {
+      this.page.url = 'https://Honeylife77.github.io/timemoney/';
+      this.page.identifier = 'timemoney-app-index';
     };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://timemoney-1.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+
+    /** 슬라이더 및 네비게이션 제어 **/
+    const slider = document.getElementById('slider');
+    const dots = document.querySelectorAll('.nav-dot');
+
+    slider.addEventListener('scroll', () => {
+      // expanded 상태일 때 계산 보정
+      const page1 = document.getElementById('page1');
+      const p1Height = page1.offsetHeight;
+      const scrollPos = slider.scrollTop;
+      
+      let pageIndex = 0;
+      if (scrollPos < p1Height / 2) {
+        pageIndex = 0;
+      } else if (scrollPos < p1Height + window.innerHeight / 2) {
+        pageIndex = 1;
+      } else {
+        pageIndex = 2;
+      }
+      
+      // dot 인덱스 업데이트
+      const dotIndex = scrollPos >= p1Height ? (Math.round((scrollPos - p1Height) / window.innerHeight) + 1) : 0;
+
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === dotIndex);
+      });
+    });
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const pageIdx = parseInt(dot.getAttribute('data-page'));
+        const page1 = document.getElementById('page1');
+        const p1Height = page1.offsetHeight;
+        
+        let targetTop = 0;
+        if (pageIdx === 0) targetTop = 0;
+        else if (pageIdx === 1) targetTop = p1Height;
+        else targetTop = p1Height + window.innerHeight;
+
+        slider.scrollTo({
+          top: targetTop,
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    /** 앱 로직 **/
+    const IS_PREMIUM = true;
+    const STORAGE_KEY = "money_time_counter_v8";
+    const NOTICE_KEY = "money_time_notice_hidden_v8";
+    const THEME_KEY = "money_time_theme_mode_v8";
+    const CUSTOM_COLORS_KEY = "money_time_custom_colors_v8";
+    const CUSTOM_THEME_ACTIVE_KEY = "money_time_custom_theme_active_v8";
+    const TARGET = 100000000;
+
+    const defaultLightColors = {
+      "--card": "#ffffff",
+      "--card-2": "#ffffff",
+      "--line": "#dcdcdc",
+      "--text": "#111111",
+      "--sub": "#666666",
+      "--muted": "#888888",
+      "--accent": "#d4af37",
+      "--blink": "#111111",
+      "--main-value": "#111111",
+      "--button-bg": "#ffffff",
+      "--button-text": "#111111",
+      "--button-border": "#d0d0d0",
+      "--page-bg-start": "#ffffff",
+      "--page-bg-mid": "#f6f6f6",
+      "--page-bg-end": "#efefef"
+    };
+
+    const defaultDarkColors = {
+      "--card": "#171717",
+      "--card-2": "#202020",
+      "--line": "#303030",
+      "--text": "#ffffff",
+      "--sub": "#b8b8b8",
+      "--muted": "#8e8e8e",
+      "--accent": "#d4af37",
+      "--blink": "#ffd9a8",
+      "--main-value": "#ffffff",
+      "--button-bg": "#ffffff",
+      "--button-text": "#111111",
+      "--button-border": "#3a3a3a",
+      "--page-bg-start": "#1a1a1a",
+      "--page-bg-mid": "#0d0d0d",
+      "--page-bg-end": "#070707"
+    };
+
+    const colorFields = [
+      ["--page-bg-start", "전체 배경 시작색"],
+      ["--page-bg-mid", "전체 배경 중간색"],
+      ["--page-bg-end", "전체 배경 끝색"],
+      ["--card", "메인 카드 배경"],
+      ["--card-2", "박스/항목 배경"],
+      ["--text", "기본 글씨색"],
+      ["--sub", "보조 글씨색"],
+      ["--muted", "희미한 글씨색"],
+      ["--line", "테두리/구분선 색"],
+      ["--accent", "강조색 (금색 계열)"],
+      ["--main-value", "메인 숫자 색"],
+      ["--blink", "하단 깜빡이는 문구 색"],
+      ["--button-bg", "버튼 배경색"],
+      ["--button-text", "버튼 글씨색"],
+      ["--button-border", "버튼 테두리색"]
+    ];
+
+    const currencies = [
+      { country: "대한민국", code: "KRW", name: "원", full: "대한민국 원", symbol: "₩" },
+      { country: "미국", code: "USD", name: "달러", full: "미국 달러", symbol: "$" },
+      { country: "일본", code: "JPY", name: "엔", full: "일본 엔", symbol: "¥" },
+      { country: "중국", code: "CNY", name: "위안", full: "중국 위안", symbol: "¥" },
+      { country: "유럽연합", code: "EUR", name: "유로", full: "유로", symbol: "€" },
+      { country: "영국", code: "GBP", name: "파운드", full: "영국 파운드", symbol: "£" },
+      { country: "인도", code: "INR", name: "루피", full: "인도 루피", symbol: "₹" },
+      { country: "캐나다", code: "CAD", name: "달러", full: "캐나다 달러", symbol: "C$" },
+      { country: "호주", code: "AUD", name: "달러", full: "호주 달러", symbol: "A$" },
+      { country: "스위스", code: "CHF", name: "프랑", full: "스위스 프랑", symbol: "CHF" }
+    ];
+
+    const blinkNote = document.getElementById("blinkNote");
+    const blinkMessages = [
+      "너무 오래 쳐다보면 눈에 피로가 쌓일 수 있습니다.\n적당히 쳐다보세요^^",
+      "화폐단위를 클릭하면 단위가 변경됩니다."
+    ];
+    let blinkMessageIndex = 0;
+
+    function getDefaultData() {
+      return {
+        startedAt: null,
+        running: false,
+        pendingStart: false,
+        currencyIndex: 0,
+        history: []
+      };
+    }
+
+    function loadData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          return getDefaultData();
+        }
+      }
+      const d = getDefaultData();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+      return d;
+    }
+
+    let data = loadData();
+    let countdownTimer = null;
+    let lastScreen = "mainScreen";
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    const mainScreen = document.getElementById("mainScreen");
+    const historyScreen = document.getElementById("historyScreen");
+    const settingsScreen = document.getElementById("settingsScreen");
+
+    const balanceEl = document.getElementById("balance");
+    const elapsedEl = document.getElementById("elapsed");
+    const totalSecondsEl = document.getElementById("totalSeconds");
+    const todayAmountEl = document.getElementById("todayAmount");
+    const weekAmountEl = document.getElementById("weekAmount");
+    const monthAmountEl = document.getElementById("monthAmount");
+    const remainingAmountEl = document.getElementById("remainingAmount");
+    const currencyInfo = document.getElementById("currencyInfo");
+    const currencyToggle = document.getElementById("currencyToggle");
+
+    const resetBtn = document.getElementById("resetBtn");
+    const historyBtn = document.getElementById("historyBtn");
+    const backMainBtn = document.getElementById("backMainBtn");
+    const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+    const historyList = document.getElementById("historyList");
+
+    const noticeModal = document.getElementById("noticeModal");
+    const dontShowAgain = document.getElementById("dontShowAgain");
+    const closeNoticeBtn = document.getElementById("closeNoticeBtn");
+
+    const startOverlay = document.getElementById("startOverlay");
+    const startBtn = document.getElementById("startBtn");
+    const countdownText = document.getElementById("countdownText");
+
+    const settingsBtn = document.getElementById("settingsBtn");
+    const settingsBtnHistory = document.getElementById("settingsBtnHistory");
+    const backFromSettingsBtn = document.getElementById("backFromSettingsBtn");
+    const showNoticeAgainBtn = document.getElementById("showNoticeAgainBtn");
+    const resetThemeBtn = document.getElementById("resetThemeBtn");
+    const saveThemeBtn = document.getElementById("saveThemeBtn");
+    const colorGrid = document.getElementById("colorGrid");
+    const premiumInfoBtn = document.getElementById("premiumInfoBtn");
+
+    const modeButtons = [
+      document.getElementById("modeToggleMain"),
+      document.getElementById("modeToggleHistory"),
+      document.getElementById("modeToggleSettings")
+    ];
+
+    function applyPremiumUI() {
+      document.querySelectorAll(".premium-only").forEach(el => {
+        el.style.display = IS_PREMIUM ? "" : "none";
+      });
+
+      document.querySelectorAll(".free-only").forEach(el => {
+        el.style.display = IS_PREMIUM ? "none" : "";
+      });
+    }
+
+    function isCustomThemeActive() {
+      return localStorage.getItem(CUSTOM_THEME_ACTIVE_KEY) === "true";
+    }
+
+    function setCustomThemeActive(active) {
+      localStorage.setItem(CUSTOM_THEME_ACTIVE_KEY, active ? "true" : "false");
+      updateModeButtonsVisibility();
+    }
+
+    function updateModeButtonsVisibility() {
+      const hide = isCustomThemeActive() || !IS_PREMIUM;
+      modeButtons.forEach(btn => {
+        if (!btn) return;
+        btn.style.display = hide ? "none" : "inline-flex";
+      });
+    }
+
+    function getCurrentCurrency() {
+      return currencies[data.currencyIndex || 0];
+    }
+
+    function buildPageBg() {
+      const start = getComputedStyle(document.documentElement).getPropertyValue("--page-bg-start").trim();
+      const mid = getComputedStyle(document.documentElement).getPropertyValue("--page-bg-mid").trim();
+      const end = getComputedStyle(document.documentElement).getPropertyValue("--page-bg-end").trim();
+      document.documentElement.style.setProperty("--page-bg", `radial-gradient(circle at top, ${start} 0%, ${mid} 55%, ${end} 100%)`);
+    }
+
+    function applyColorSet(colorSet) {
+      Object.entries(colorSet).forEach(([key, value]) => {
+        document.documentElement.style.setProperty(key, value);
+      });
+      buildPageBg();
+    }
+
+    function loadCustomColors() {
+      const raw = localStorage.getItem(CUSTOM_COLORS_KEY);
+      if (!raw) return null;
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return null;
+      }
+    }
+
+    function saveCustomColors(colors) {
+      localStorage.setItem(CUSTOM_COLORS_KEY, JSON.stringify(colors));
+    }
+
+    function getCurrentMode() {
+      return localStorage.getItem(THEME_KEY) || "light";
+    }
+
+    function applyTheme(mode) {
+      localStorage.setItem(THEME_KEY, mode);
+
+      if (isCustomThemeActive()) {
+        const custom = loadCustomColors();
+        if (custom && custom[mode]) {
+          applyColorSet(custom[mode]);
+        } else {
+          applyColorSet(mode === "dark" ? defaultDarkColors : defaultLightColors);
+        }
+      } else {
+        applyColorSet(mode === "dark" ? defaultDarkColors : defaultLightColors);
+      }
+
+      updateModeButtons();
+      updateModeButtonsVisibility();
+      syncColorInputs();
+    }
+
+    function toggleTheme() {
+      if (!IS_PREMIUM) return;
+      const current = getCurrentMode();
+      applyTheme(current === "dark" ? "light" : "dark");
+    }
+
+    function updateModeButtons() {
+      const current = getCurrentMode();
+      modeButtons.forEach(btn => {
+        if (btn) btn.textContent = current === "dark" ? "일반모드" : "다크모드";
+      });
+    }
+
+    modeButtons.forEach(btn => {
+      if (btn) btn.addEventListener("click", toggleTheme);
+    });
+
+    function showScreen(screenId) {
+      [mainScreen, historyScreen, settingsScreen].forEach(el => el.classList.remove("active"));
+      document.getElementById(screenId).classList.add("active");
+      
+      const page1 = document.getElementById('page1');
+      if (screenId === 'settingsScreen') {
+        page1.classList.add('expanded');
+      } else {
+        page1.classList.remove('expanded');
+      }
+    }
+
+    function formatMoney(num) {
+      const currency = getCurrentCurrency();
+      return `${Math.floor(num).toLocaleString("ko-KR")} ${currency.symbol}`;
+    }
+
+    function formatSecondsOnly(num) {
+      return `${Math.floor(num).toLocaleString("ko-KR")}초`;
+    }
+
+    function formatElapsed(seconds) {
+      seconds = Math.floor(seconds);
+      const days = Math.floor(seconds / 86400);
+      const hours = Math.floor((seconds % 86400) / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const secs = seconds % 60;
+      return `${days}일 ${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")} 경과`;
+    }
+
+    function formatDateTime(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      const h = String(date.getHours()).padStart(2, "0");
+      const min = String(date.getMinutes()).padStart(2, "0");
+      return `${y}.${m}.${d} ${h}:${min}`;
+    }
+
+    function getStartOfDay(date) {
+      const d = new Date(date);
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+
+    function getStartOfWeek(date) {
+      const d = new Date(date);
+      const day = d.getDay();
+      const diff = day === 0 ? -6 : 1 - day;
+      d.setDate(d.getDate() + diff);
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+
+    function getStartOfMonth(date) {
+      return new Date(date.getFullYear(), date.getMonth(), 1, 0, 0, 0, 0);
+    }
+
+    function getElapsedSeconds(now = Date.now()) {
+      if (!data.running || !data.startedAt) return 0;
+      return Math.max(0, Math.floor((now - data.startedAt) / 1000));
+    }
 
     function updateUI() {
       const now = Date.now();
-      const elapsedSeconds = data.running ? Math.floor((now - data.startedAt) / 1000) : 0;
-      const currency = currencies[data.currencyIndex];
-      elements.balance.textContent = `${elapsedSeconds.toLocaleString()} ${currency.symbol}`;
-      elements.elapsed.textContent = `${Math.floor(elapsedSeconds/86400)}일 경과`;
-      elements.totalSeconds.textContent = `${elapsedSeconds.toLocaleString()}초`;
-      elements.currencyInfo.textContent = currency.code;
-      if (elements.todayAmount) elements.todayAmount.textContent = `${elapsedSeconds.toLocaleString()} ${currency.symbol}`;
-      if (elements.remainingAmount) elements.remainingAmount.textContent = `${(TARGET - elapsedSeconds).toLocaleString()} ${currency.symbol}`;
-      elements.startOverlay.classList.toggle("hidden", data.running);
+      const elapsedSeconds = getElapsedSeconds(now);
+      const currentAmount = elapsedSeconds;
+
+      const startOfDay = getStartOfDay(new Date());
+      const todayElapsed = data.running
+        ? Math.max(0, Math.floor((now - Math.max(data.startedAt, startOfDay.getTime())) / 1000))
+        : 0;
+
+      const startOfWeek = getStartOfWeek(new Date());
+      const weekElapsed = data.running
+        ? Math.max(0, Math.floor((now - Math.max(data.startedAt, startOfWeek.getTime())) / 1000))
+        : 0;
+
+      const startOfMonth = getStartOfMonth(new Date());
+      const monthElapsed = data.running
+        ? Math.max(0, Math.floor((now - Math.max(data.startedAt, startOfMonth.getTime())) / 1000))
+        : 0;
+
+      const remaining = Math.max(0, TARGET - currentAmount);
+      const currency = getCurrentCurrency();
+
+      currencyInfo.textContent = `${currency.code} (${currency.full})`;
+
+      balanceEl.textContent = formatMoney(currentAmount);
+      elapsedEl.textContent = formatElapsed(elapsedSeconds);
+      totalSecondsEl.textContent = formatSecondsOnly(elapsedSeconds);
+
+      if (todayAmountEl) todayAmountEl.textContent = formatMoney(todayElapsed);
+      if (weekAmountEl) weekAmountEl.textContent = formatMoney(weekElapsed);
+      if (monthAmountEl) monthAmountEl.textContent = formatMoney(monthElapsed);
+      if (remainingAmountEl) remainingAmountEl.textContent = formatMoney(remaining);
+
+      if (!data.running && !data.pendingStart) {
+        startOverlay.classList.remove("hidden");
+        startBtn.classList.remove("hidden");
+        countdownText.classList.add("hidden");
+      } else if (data.pendingStart) {
+        startOverlay.classList.remove("hidden");
+        startBtn.classList.add("hidden");
+        countdownText.classList.remove("hidden");
+      } else {
+        startOverlay.classList.add("hidden");
+      }
     }
 
-    const showScreen = (id) => {
-      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-      document.getElementById(id).classList.add("active");
-      document.getElementById("page1").classList.toggle("expanded", id === "settingsScreen");
-    };
+    function renderHistory() {
+      historyList.innerHTML = "";
 
-    document.getElementById("startBtn").onclick = () => { data.startedAt = Date.now(); data.running = true; saveData(); updateUI(); };
-    document.getElementById("settingsBtn").onclick = () => showScreen("settingsScreen");
-    document.getElementById("backFromSettingsBtn").onclick = () => showScreen("mainScreen");
-    document.getElementById("historyBtn").onclick = () => {
-      elements.historyList.innerHTML = data.history.length ? "" : "<p style='text-align:center; padding:20px;'>기록이 없습니다.</p>";
-      data.history.slice().reverse().forEach(h => {
-        const item = document.createElement("div"); item.className = "history-item";
-        item.innerHTML = `<strong>${h.type}</strong> <small>${h.time}</small><br>${h.amount}`;
-        elements.historyList.appendChild(item);
+      if (!data.history || data.history.length === 0) {
+        historyList.innerHTML = `<div class="empty">아직 저장된 히스토리 없습니다.</div>`;
+        return;
+      }
+
+      const sorted = [...data.history].reverse();
+
+      sorted.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "history-item";
+        div.innerHTML = `
+          <strong>${item.type}</strong><br />
+          시각: ${item.time}<br />
+          누적 시간: ${item.elapsed}<br />
+          누적 금액: ${item.amount}
+        `;
+        historyList.appendChild(div);
       });
-      showScreen("historyScreen");
-    };
-    document.getElementById("backMainBtn").onclick = () => showScreen("mainScreen");
-    document.getElementById("resetBtn").onclick = () => {
-      if(!confirm("기록을 저장하고 초기화할까요?")) return;
-      data.history.push({ type: "초기화", time: new Date().toLocaleString(), amount: elements.balance.textContent });
-      data.startedAt = null; data.running = false; saveData(); updateUI();
-    };
-    document.getElementById("currencyToggle").onclick = () => { data.currencyIndex = (data.currencyIndex + 1) % currencies.length; saveData(); updateUI(); };
-    elements.balance.onclick = document.getElementById("currencyToggle").onclick;
+    }
 
-    const toggleTheme = () => {
-      const mode = localStorage.getItem("theme") === "dark" ? "light" : "dark";
-      localStorage.setItem("theme", mode);
-      document.documentElement.style.setProperty("--card", mode === "dark" ? "#171717" : "#ffffff");
-      document.documentElement.style.setProperty("--text", mode === "dark" ? "#ffffff" : "#111111");
-      document.documentElement.style.setProperty("--bg", mode === "dark" ? "#000000" : "#f7f7f7");
-      document.querySelectorAll(".mode-btn").forEach(b => b.textContent = mode === "dark" ? "일반모드" : "다크모드");
-    };
-    document.querySelectorAll(".mode-btn").forEach(b => b.onclick = toggleTheme);
+    function startCountingWithDelay() {
+      if (data.running || data.pendingStart) return;
+
+      data.pendingStart = true;
+      saveData();
+      updateUI();
+
+      clearTimeout(countdownTimer);
+      countdownTimer = setTimeout(() => {
+        data.startedAt = Date.now();
+        data.running = true;
+        data.pendingStart = false;
+        saveData();
+        updateUI();
+      }, 2000);
+    }
+
+    function startBlinkMessageRotation() {
+      setInterval(() => {
+        blinkMessageIndex = (blinkMessageIndex + 1) % blinkMessages.length;
+        blinkNote.textContent = blinkMessages[blinkMessageIndex];
+      }, 3000);
+    }
+
+    startBtn.addEventListener("click", startCountingWithDelay);
+
+    currencyToggle.addEventListener("click", () => {
+      data.currencyIndex = ((data.currencyIndex || 0) + 1) % currencies.length;
+      saveData();
+      updateUI();
+    });
+
+    balanceEl.addEventListener("click", () => {
+      data.currencyIndex = ((data.currencyIndex || 0) + 1) % currencies.length;
+      saveData();
+      updateUI();
+    });
+
+    if (resetBtn) {
+      resetBtn.addEventListener("click", () => {
+        if (!IS_PREMIUM) return;
+
+        const now = Date.now();
+        const elapsedSeconds = getElapsedSeconds(now);
+        const currentAmount = elapsedSeconds;
+
+        const ok = confirm("초기화하시겠습니까?\n현재 기록은 히스토리에 저장되고, 처음부터 다시 시작됩니다");
+        if (!ok) return;
+
+        if (elapsedSeconds > 0) {
+          if (!data.history) data.history = [];
+          data.history.push({
+            type: "초기화",
+            time: formatDateTime(new Date()),
+            elapsed: formatElapsed(elapsedSeconds).replace(" 경과", ""),
+            amount: formatMoney(currentAmount)
+          });
+        }
+
+        clearTimeout(countdownTimer);
+        data.startedAt = null;
+        data.running = false;
+        data.pendingStart = false;
+        saveData();
+        updateUI();
+        alert("초기화되었습니다");
+      });
+    }
+
+    if (historyBtn) {
+      historyBtn.addEventListener("click", () => {
+        if (!IS_PREMIUM) return;
+        renderHistory();
+        showScreen("historyScreen");
+        lastScreen = "mainScreen";
+      });
+    }
+
+    backMainBtn.addEventListener("click", () => {
+      showScreen("mainScreen");
+      updateUI();
+    });
+
+    if (clearHistoryBtn) {
+      clearHistoryBtn.addEventListener("click", () => {
+        if (!IS_PREMIUM) return;
+        const ok = confirm("히스토리를 모두 비우시겠습니까?");
+        if (!ok) return;
+        data.history = [];
+        saveData();
+        renderHistory();
+      });
+    }
+
+    function maybeShowNotice() {
+      const hidden = localStorage.getItem(NOTICE_KEY) === "true";
+      if (!hidden) {
+        noticeModal.classList.add("show");
+      }
+    }
+
+    closeNoticeBtn.addEventListener("click", () => {
+      if (dontShowAgain.checked) {
+        localStorage.setItem(NOTICE_KEY, "true");
+      }
+      noticeModal.classList.remove("show");
+    });
+
+    showNoticeAgainBtn.addEventListener("click", () => {
+      localStorage.removeItem(NOTICE_KEY);
+      dontShowAgain.checked = false;
+      noticeModal.classList.add("show");
+      alert("첫 안내문을 다시 표시하도록 설정했습니다.");
+    });
+
+    settingsBtn.addEventListener("click", () => {
+      lastScreen = "mainScreen";
+      showScreen("settingsScreen");
+    });
+
+    settingsBtnHistory.addEventListener("click", () => {
+      lastScreen = "historyScreen";
+      showScreen("settingsScreen");
+    });
+
+    backFromSettingsBtn.addEventListener("click", () => {
+      showScreen(lastScreen || "mainScreen");
+    });
+
+    if (premiumInfoBtn) {
+      premiumInfoBtn.addEventListener("click", () => {
+        alert("유료 버전 구매 기능은 준비 중입니다.");
+      });
+    }
+
+    function renderColorSettings() {
+      if (!colorGrid) return;
+      colorGrid.innerHTML = "";
+      colorFields.forEach(([key, label]) => {
+        const current = getComputedStyle(document.documentElement).getPropertyValue(key).trim() || "#ffffff";
+
+        const row = document.createElement("div");
+        row.className = "color-item";
+        row.innerHTML = `
+          <label>${label}</label>
+          <input type="color" data-key="${key}" value="${toHex(current)}" />
+          <input type="text" data-key-text="${key}" value="${toHex(current)}" placeholder="#ffffff" />
+        `;
+        colorGrid.appendChild(row);
+      });
+
+      bindColorInputs();
+    }
+
+    function bindColorInputs() {
+      document.querySelectorAll('input[type="color"][data-key]').forEach(input => {
+        input.addEventListener("input", (e) => {
+          const key = e.target.dataset.key;
+          const value = e.target.value;
+          document.documentElement.style.setProperty(key, value);
+          const textInput = document.querySelector(`input[data-key-text="${key}"]`);
+          if (textInput) textInput.value = value;
+          buildPageBg();
+        });
+      });
+
+      document.querySelectorAll('input[type="text"][data-key-text]').forEach(input => {
+        input.addEventListener("change", (e) => {
+          const key = e.target.dataset.keyText;
+          const value = normalizeHex(e.target.value);
+          if (!value) {
+            syncColorInputs();
+            return;
+          }
+          document.documentElement.style.setProperty(key, value);
+          const colorInput = document.querySelector(`input[data-key="${key}"]`);
+          if (colorInput) colorInput.value = value;
+          e.target.value = value;
+          buildPageBg();
+        });
+      });
+    }
+
+    function syncColorInputs() {
+      colorFields.forEach(([key]) => {
+        const current = getComputedStyle(document.documentElement).getPropertyValue(key).trim();
+        const hex = toHex(current);
+        const colorInput = document.querySelector(`input[data-key="${key}"]`);
+        const textInput = document.querySelector(`input[data-key-text="${key}"]`);
+        if (colorInput && hex) colorInput.value = hex;
+        if (textInput && hex) textInput.value = hex;
+      });
+    }
+
+    function normalizeHex(v) {
+      let value = (v || "").trim();
+      if (!value) return null;
+      if (!value.startsWith("#")) value = "#" + value;
+      if (/^#([0-9A-Fa-f]{3})$/.test(value)) {
+        return "#" + value[1] + value[1] + value[2] + value[2] + value[3] + value[3];
+      }
+      if (/^#([0-9A-Fa-f]{6})$/.test(value)) return value;
+      return null;
+    }
+
+    function toHex(color) {
+      if (!color) return "#ffffff";
+      if (color.startsWith("#")) return color;
+
+      const temp = document.createElement("div");
+      temp.style.color = color;
+      document.body.appendChild(temp);
+      const computed = getComputedStyle(temp).color;
+      document.body.removeChild(temp);
+
+      const match = computed.match(/\d+/g);
+      if (!match || match.length < 3) return "#ffffff";
+      return "#" + match.slice(0, 3).map(x => Number(x).toString(16).padStart(2, "0")).join("");
+    }
+
+    if (saveThemeBtn) {
+      saveThemeBtn.addEventListener("click", () => {
+        if (!IS_PREMIUM) return;
+        const mode = getCurrentMode();
+        const saved = loadCustomColors() || { light: {}, dark: {} };
+        saved[mode] = {};
+        colorFields.forEach(([key]) => {
+          saved[mode][key] = getComputedStyle(document.documentElement).getPropertyValue(key).trim();
+        });
+        saveCustomColors(saved);
+        setCustomThemeActive(true);
+        alert("색상이 저장되었습니다.");
+      });
+    }
+
+    if (resetThemeBtn) {
+      resetThemeBtn.addEventListener("click", () => {
+        if (!IS_PREMIUM) return;
+        localStorage.removeItem(CUSTOM_COLORS_KEY);
+        setCustomThemeActive(false);
+        const mode = getCurrentMode();
+        applyTheme(mode);
+        alert("기본 색상으로 복원되었습니다.");
+      });
+    }
 
     function init() {
-      document.querySelectorAll(".premium-only").forEach(el => el.style.display = IS_PREMIUM ? "" : "none");
-      document.querySelectorAll(".free-only").forEach(el => el.style.display = IS_PREMIUM ? "none" : "");
-      updateUI(); setInterval(updateUI, 1000);
+      applyPremiumUI();
+      renderColorSettings();
+      applyTheme(getCurrentMode());
+      updateModeButtonsVisibility();
+      maybeShowNotice();
+      updateUI();
+      startBlinkMessageRotation();
+      setInterval(updateUI, 1000);
     }
+
     init();
-    (function() { var d = document, s = d.createElement('script'); s.src = 'https://timemoney-1.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })();
   </script>
 </body>
 </html>
