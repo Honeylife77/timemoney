@@ -44,8 +44,9 @@
 
     body {
       display: flex;
-      justify-content: center;
-      align-items: center;
+      flex-direction: column; /* Ensure vertical stacking */
+      justify-content: flex-start; /* Stack from top */
+      align-items: center; /* Center horizontally */
       padding: 14px;
       min-height: 100dvh;
     }
@@ -576,8 +577,8 @@
       max-width: 430px;
       margin-top: 30px;
       padding: 18px;
-      background: var(--card);
-      border: 1px solid var(--line);
+      background: #ffffff; /* Fixed light theme background */
+      border: 1px solid #dcdcdc; /* Fixed light theme border */
       border-radius: 30px;
       box-shadow: var(--shadow);
       min-height: 200px; /* Adjust as needed */
