@@ -9,85 +9,138 @@
     <meta name="google-adsense-account" content="ca-pub-8474406720389792">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", Arial, sans-serif;
             line-height: 1.6;
-            margin: 20px;
+            margin: 0;
+            padding: 20px;
             background-color: #f4f4f4;
             color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
         .container {
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 500px;
+            width: 100%;
             background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: #111;
+        }
+        .back-link svg {
+            margin-right: 6px;
         }
         h1 {
             text-align: center;
-            color: #0056b3;
+            color: #111;
+            margin-bottom: 10px;
+            font-weight: 900;
+        }
+        p.intro {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 15px;
         }
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
+            font-size: 14px;
         }
         input[type="text"],
         input[type="email"],
         textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px 15px;
             margin-bottom: 20px;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box; /* Ensures padding doesn't affect overall width */
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-size: 15px;
+            transition: border-color 0.2s;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #111;
         }
         textarea {
             resize: vertical;
             min-height: 120px;
         }
-        button {
+        button.submit-btn {
             display: block;
             width: 100%;
-            padding: 12px;
-            background-color: #007bff;
+            padding: 15px;
+            background-color: #111;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 12px;
             font-size: 16px;
+            font-weight: 800;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.1s;
         }
-        button:hover {
-            background-color: #0056b3;
+        button.submit-btn:hover {
+            background-color: #333;
+        }
+        button.submit-btn:active {
+            transform: scale(0.98);
         }
         .note {
-            margin-top: 20px;
-            font-size: 0.9em;
-            color: #666;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999;
             text-align: center;
+            line-height: 1.8;
+        }
+        .note a {
+            color: #666;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <a href="index.html" class="back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            돌아가기
+        </a>
         <h1>제휴 문의</h1>
-        <p>제휴 관련 문의 사항이 있으시면 아래 양식을 작성해 주세요.</p>
+        <p class="intro">비즈니스 제휴 및 광고 문의를 남겨주시면<br>검토 후 연락드리겠습니다.</p>
+        
         <form action="https://formspree.io/f/xdapbgqa" method="POST">
-            <label for="name">이름:</label>
-            <input type="text" id="name" name="name" required>
+            <label for="name">이름</label>
+            <input type="text" id="name" name="name" placeholder="성함 또는 업체명을 입력해주세요" required>
 
-            <label for="email">이메일:</label>
-            <input type="email" id="email" name="_replyto" required>
+            <label for="email">이메일</label>
+            <input type="email" id="email" name="_replyto" placeholder="답변을 받으실 이메일 주소" required>
 
-            <label for="message">메시지:</label>
-            <textarea id="message" name="message" required></textarea>
+            <label for="message">문의 내용</label>
+            <textarea id="message" name="message" placeholder="제휴 내용, 기간, 예산 등 상세 내용을 적어주세요" required></textarea>
 
-            <button type="submit">문의하기</button>
+            <button type="submit" class="submit-btn">문의 내용 전송하기</button>
         </form>
+        
         <p class="note">
-            <strong> 중요: </strong> 이 폼을 사용하시려면 <a href="https://formspree.io/" target="_blank">Formspree</a> 계정을 생성하고 폼을 설정해야 합니다.
-            위 <code>action="https://formspree.io/f/your_form_id"</code> 부분의 <code>your_form_id</code>를 Formspree에서 제공하는 실제 폼 ID로 변경해 주세요.
+            본 폼은 Formspree 서비스를 통해 안전하게 전달됩니다.<br>
+            서비스 이용약관 및 개인정보 처리방침에 동의하신다면 전송 버튼을 눌러주세요.
         </p>
     </div>
 </body>
