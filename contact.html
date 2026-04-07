@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제휴 문의</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #0056b3;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box; /* Ensures padding doesn't affect overall width */
+        }
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .note {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>제휴 문의</h1>
+        <p>제휴 관련 문의 사항이 있으시면 아래 양식을 작성해 주세요.</p>
+        <form action="https://formspree.io/f/xdapbgqa" method="POST">
+            <label for="name">이름:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">이메일:</label>
+            <input type="email" id="email" name="_replyto" required>
+
+            <label for="message">메시지:</label>
+            <textarea id="message" name="message" required></textarea>
+
+            <button type="submit">문의하기</button>
+        </form>
+        <p class="note">
+            <strong> 중요: </strong> 이 폼을 사용하시려면 <a href="https://formspree.io/" target="_blank">Formspree</a> 계정을 생성하고 폼을 설정해야 합니다.
+            위 <code>action="https://formspree.io/f/your_form_id"</code> 부분의 <code>your_form_id</code>를 Formspree에서 제공하는 실제 폼 ID로 변경해 주세요.
+        </p>
+    </div>
+</body>
+</html>
