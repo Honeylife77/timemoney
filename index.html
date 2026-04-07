@@ -585,6 +585,28 @@
       flex-direction: column;
       justify-content: flex-start;
     }
+
+    .affiliate-link-section {
+      width: 100%;
+      max-width: 430px;
+      margin-top: 20px;
+      margin-bottom: 30px; /* Add some space below */
+      padding: 18px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: center; /* Center the button */
+      align-items: center;
+      min-height: 80px; /* Adjust as needed */
+    }
+
+    .affiliate-link-section .btn {
+      width: auto; /* Allow button to size naturally */
+      padding: 12px 24px; /* More padding for a call to action */
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -746,15 +768,7 @@
             </div>
           </div>
 
-          <div class="settings-card">
-            <h3>제휴 문의</h3>
-            <div class="settings-desc">
-              협업 및 제휴 문의는 아래 버튼을 클릭해 주세요.
-            </div>
-            <div style="margin-top:12px;">
-              <a href="contact.html" class="btn">제휴 문의하기</a>
-            </div>
-          </div>
+
         </div>
       </div>
     </section>
@@ -780,6 +794,10 @@
         })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <div class="affiliate-link-section">
+    <a href="contact.html" class="btn">제휴 문의하기</a>
   </div>
 
   <div id="noticeModal" class="modal-backdrop">
