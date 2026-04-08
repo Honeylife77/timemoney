@@ -1,20 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>제휴 문의</title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8474406720389792"
-     crossorigin="anonymous"></script>
-    <meta name="google-adsense-account" content="ca-pub-8474406720389792">
+    <title>제휴 문의 - 시간은돈(TimeMoney)</title>
     <style>
         body {
-            font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", Arial, sans-serif;
+            font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 20px;
-            background-color: #f4f4f4;
+            background-color: #f9f9f9;
             color: #333;
             display: flex;
             justify-content: center;
@@ -26,8 +22,8 @@
             width: 100%;
             background: #fff;
             padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
             position: relative;
         }
         .back-link {
@@ -37,7 +33,7 @@
             color: #666;
             font-size: 14px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             transition: color 0.2s;
         }
         .back-link:hover {
@@ -51,54 +47,63 @@
             color: #111;
             margin-bottom: 10px;
             font-weight: 900;
+            font-size: 28px;
         }
         p.intro {
             text-align: center;
             color: #666;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             font-size: 15px;
+            word-break: keep-all;
         }
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 14px;
+            color: #111;
         }
         input[type="text"],
         input[type="email"],
         textarea {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 18px;
             margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
+            border: 1px solid #eee;
+            border-radius: 14px;
             box-sizing: border-box;
             font-size: 15px;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
+            background-color: #fafafa;
         }
         input:focus, textarea:focus {
             outline: none;
-            border-color: #111;
+            border-color: #d4af37;
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
         }
         textarea {
             resize: vertical;
-            min-height: 120px;
+            min-height: 140px;
         }
         button.submit-btn {
             display: block;
             width: 100%;
-            padding: 15px;
+            padding: 16px;
             background-color: #111;
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 16px;
             font-weight: 800;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.1s;
+            transition: all 0.3s ease;
+            margin-top: 10px;
         }
         button.submit-btn:hover {
             background-color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         button.submit-btn:active {
             transform: scale(0.98);
@@ -106,12 +111,13 @@
         .note {
             margin-top: 30px;
             font-size: 12px;
-            color: #999;
+            color: #aaa;
             text-align: center;
             line-height: 1.8;
         }
         .note a {
-            color: #666;
+            color: #888;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -121,27 +127,27 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M19 12H5M12 19l-7-7 7-7"/>
             </svg>
-            돌아가기
+            홈으로 돌아가기
         </a>
-        <h1>제휴 문의</h1>
-        <p class="intro">비즈니스 제휴 및 광고 문의를 남겨주시면<br>검토 후 연락드리겠습니다.</p>
+        <h1>제휴 및 광고 문의</h1>
+        <p class="intro">비즈니스 제휴, 광고 게재 또는 기타 서비스 관련 문의를 남겨주시면 신속하게 검토 후 답변드리겠습니다.</p>
         
         <form action="https://formspree.io/f/xdapbgqa" method="POST">
-            <label for="name">이름</label>
-            <input type="text" id="name" name="name" placeholder="성함 또는 업체명을 입력해주세요" required>
+            <label for="name">성함 또는 업체명</label>
+            <input type="text" id="name" name="name" placeholder="문의하시는 분의 성함을 입력해주세요" required>
 
-            <label for="email">이메일</label>
-            <input type="email" id="email" name="_replyto" placeholder="답변을 받으실 이메일 주소" required>
+            <label for="email">이메일 주소</label>
+            <input type="email" id="email" name="_replyto" placeholder="답변을 받으실 이메일을 입력해주세요" required>
 
-            <label for="message">문의 내용</label>
-            <textarea id="message" name="message" placeholder="제휴 내용, 기간, 예산 등 상세 내용을 적어주세요" required></textarea>
+            <label for="message">문의 상세 내용</label>
+            <textarea id="message" name="message" placeholder="문의하실 내용을 상세히 적어주세요 (제휴 제안, 광고 문의 등)" required></textarea>
 
             <button type="submit" class="submit-btn">문의 내용 전송하기</button>
         </form>
         
         <p class="note">
-            본 폼은 Formspree 서비스를 통해 안전하게 전달됩니다.<br>
-            서비스 이용약관 및 개인정보 처리방침에 동의하신다면 전송 버튼을 눌러주세요.
+            본 문의 폼은 보안 연결을 통해 안전하게 전달됩니다.<br>
+            전송 시 <a href="privacy.html">개인정보처리방침</a>에 동의하는 것으로 간주됩니다.
         </p>
     </div>
 </body>
