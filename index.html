@@ -68,58 +68,33 @@
       transition: background 0.25s ease, color 0.25s ease;
     }
 
-    /* 글로벌 블로그 버튼 */
-    .global-blog-btn {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 1000;
-      background: var(--button-bg);
-      color: var(--button-text);
-      padding: 10px 20px;
-      border-radius: 14px;
-      border: 1px solid var(--button-border);
-      text-decoration: none;
-      font-weight: 800;
-      font-size: 14px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      transition: 0.2s;
-    }
-
-    .global-blog-btn:hover {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-      transform: translateY(-2px);
-    }
-
     /* 슬라이더 컨테이너 */
     .slider-container {
       width: 100%;
       height: 100vh;
       overflow-y: auto;
-      scroll-snap-type: y mandatory;
+      scroll-snap-type: y proximity; /* mandatory에서 proximity로 변경하여 부드러운 스크롤 허용 */
       scroll-behavior: smooth;
     }
 
     /* 각 슬라이드 페이지 */
     .slide {
       width: 100%;
-      height: 100vh;
-      scroll-snap-align: start;
+      min-height: 100vh;
+      height: auto;
+      scroll-snap-align: start end; /* 시작과 끝 모두 스냅 지점으로 설정 */
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
-      padding: 20px;
+      padding: 40px 20px;
       position: relative;
-      transition: height 0.3s ease;
+      transition: min-height 0.3s ease;
     }
 
     /* 설정 화면 진입 시 높이 확장 */
     .slide.expanded {
-      height: 200vh;
-      justify-content: flex-start;
+      min-height: 200vh;
       padding-top: 60px;
     }
 
@@ -185,6 +160,10 @@
       font-weight: 800;
       cursor: pointer;
       transition: 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .header {
@@ -792,8 +771,6 @@
 </head>
 
 <body>
-  <!-- 글로벌 블로그 버튼 추가 -->
-  <a href="blog.html" class="global-blog-btn">Blog</a>
 
   <div class="slider-container" id="slider">
     <!-- 1페이지: 앱 메인 (설정 시 2페이지 분량 확장 가능) -->
@@ -805,6 +782,7 @@
               <div class="topbar-left">
                 <button class="settings-btn" id="settingsBtn">설정</button>
               </div>
+              <a href="blog.html" class="mode-btn">시간의 지혜</a>
               <div class="topbar-right">
                 <button class="mode-btn premium-only" id="modeToggleMain">다크모드</button>
               </div>
@@ -880,6 +858,7 @@
               <div class="topbar-left">
                 <button class="settings-btn" id="settingsBtnHistory">설정</button>
               </div>
+              <a href="blog.html" class="mode-btn">시간의 지혜</a>
               <div class="topbar-right">
                 <button class="mode-btn premium-only" id="modeToggleHistory">다크모드</button>
               </div>
@@ -906,6 +885,7 @@
               <div class="topbar-left">
                 <button class="settings-btn" id="backFromSettingsBtn">← 뒤로</button>
               </div>
+              <a href="blog.html" class="mode-btn">시간의 지혜</a>
               <div class="topbar-right">
                 <button class="mode-btn premium-only" id="modeToggleSettings">다크모드</button>
               </div>
