@@ -2,15 +2,15 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>시간은돈 블로그 - 100가지 시간의 지혜</title>
     <meta name="description" content="시간의 가치, 효율적인 시간 관리법, 삶의 철학 등 시간에 관한 100가지 깊이 있는 통찰을 공유합니다.">
     <style>
         :root {
-            --bg: #f9fafb;
-            --text: #111827;
+            --bg: #f3f4f6;
+            --text: #1f2937;
             --accent: #d4af37;
-            --sidebar-bg: #ffffff;
+            --nav-bg: #ffffff;
             --card-bg: #ffffff;
             --border: #e5e7eb;
         }
@@ -21,96 +21,102 @@
             font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
             background-color: var(--bg);
             color: var(--text);
-            line-height: 1.8;
-            display: flex;
+            line-height: 1.7;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* 좌측 메뉴 */
-        .sidebar {
-            width: 200px;
-            height: 100vh;
-            background: var(--sidebar-bg);
-            border-right: 1px solid var(--border);
-            position: fixed;
-            left: 0;
+        /* 최상단 고정 네비게이션 (중앙 정렬) */
+        .top-navbar {
+            position: sticky;
             top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
             display: flex;
-            flex-direction: column;
-            padding: 40px 20px;
-            gap: 15px;
-            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 15px;
+            gap: 12px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .sidebar a, .sidebar button {
+        .top-navbar a, .top-navbar button {
             text-decoration: none;
             color: var(--text);
-            font-weight: 700;
-            font-size: 16px;
-            padding: 12px;
-            border-radius: 10px;
+            font-weight: 800;
+            font-size: 15px;
+            padding: 10px 24px;
+            border-radius: 50px;
             border: 1px solid var(--border);
             background: #fff;
             cursor: pointer;
             text-align: center;
-            transition: 0.2s;
-            display: block;
-            width: 100%;
+            transition: all 0.2s ease;
             font-family: inherit;
-            line-height: 1.2;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
         }
 
-        .sidebar a:hover, .sidebar button:hover {
+        .top-navbar a:hover, .top-navbar button:hover {
             background: var(--accent);
             color: #fff;
             border-color: var(--accent);
         }
 
-        /* 메인 콘텐츠 */
+        /* 메인 콘텐츠 컨테이너 */
         .main-container {
-            margin-left: 200px;
-            flex: 1;
-            padding: 60px 40px;
-            max-width: 1000px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 16px;
         }
 
         .blog-header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
         }
 
         .blog-header h1 {
-            font-size: 42px;
+            font-size: clamp(28px, 8vw, 42px);
             font-weight: 900;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             letter-spacing: -1px;
+            color: #111;
         }
 
         .blog-header p {
-            font-size: 18px;
-            color: #666;
+            font-size: 16px;
+            color: #6b7280;
+            word-break: keep-all;
         }
 
         /* 목차 영역 */
         .toc-section {
             background: #fff;
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 35px;
-            margin-bottom: 60px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            border-radius: 24px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            scroll-margin-top: 80px;
         }
 
         .toc-section h2 {
-            font-size: 22px;
-            margin-bottom: 25px;
-            border-left: 5px solid var(--accent);
-            padding-left: 15px;
+            font-size: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent);
+            padding-left: 12px;
+            font-weight: 900;
         }
 
         .toc-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 10px;
             list-style: none;
         }
 
@@ -118,6 +124,9 @@
             text-decoration: none;
             color: #4b5563;
             font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: #f9fafb;
             transition: 0.2s;
             white-space: nowrap;
             overflow: hidden;
@@ -127,98 +136,101 @@
 
         .toc-list a:hover {
             color: var(--accent);
-            transform: translateX(5px);
+            background: #fff6e5;
         }
 
-        /* 게시글 영역 */
+        /* 게시글 카드 */
         .article-card {
             background: #fff;
             border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 50px;
-            margin-bottom: 50px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            scroll-margin-top: 40px;
+            border-radius: 24px;
+            padding: 30px 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.02);
+            scroll-margin-top: 90px; /* 고정 헤더 고려 */
         }
 
         .article-card h2 {
-            font-size: 28px;
-            margin-bottom: 25px;
-            color: var(--text);
-            border-bottom: 2px solid var(--bg);
-            padding-bottom: 15px;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #111;
+            line-height: 1.4;
         }
 
         .article-card p {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: #374151;
             word-break: keep-all;
+            font-size: 16px;
             text-align: justify;
         }
 
         .article-card strong {
             color: var(--accent);
+            font-weight: 700;
         }
 
         .article-card .example-box {
-            background: var(--bg);
+            background: #fdfaf0;
             border-radius: 16px;
-            padding: 20px;
+            padding: 18px;
             margin-top: 20px;
-            font-style: normal;
             border-left: 4px solid var(--accent);
             color: #4b5563;
             font-size: 15px;
         }
 
-        /* 하단 버튼 */
+        /* 맨 위로 가기 버튼 */
         .bottom-nav {
             text-align: center;
-            margin-top: 60px;
-            padding-bottom: 100px;
+            margin-top: 40px;
+            padding-bottom: 80px;
         }
 
         .top-btn {
-            padding: 18px 40px;
-            border-radius: 35px;
+            padding: 16px 36px;
+            border-radius: 50px;
             border: none;
-            background: var(--text);
+            background: #111;
             color: #fff;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
-        .top-btn:hover {
-            background: var(--accent);
-            transform: translateY(-5px);
+        .top-btn:active {
+            transform: scale(0.95);
         }
 
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: center;
-                padding: 15px;
+        /* 모바일 대응 미디어 쿼리 */
+        @media (max-width: 480px) {
+            .top-navbar {
+                padding: 10px;
+                gap: 8px;
+            }
+            .top-navbar a, .top-navbar button {
+                padding: 8px 15px;
+                font-size: 13px;
+                min-width: 80px;
             }
             .main-container {
-                margin-left: 0;
-                padding: 30px 15px;
+                padding: 25px 12px;
             }
             .article-card {
-                padding: 30px 20px;
+                padding: 24px 18px;
+            }
+            .toc-list {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
 
-    <nav class="sidebar">
+    <nav class="top-navbar">
         <a href="index.html">홈</a>
         <button onclick="scrollToToc()">목차</button>
     </nav>
@@ -461,7 +473,7 @@
 
             ["용서: 마음의 짐을 내려놓는 시간", `누군가를 미워하고 원망하는 마음은 당신의 소중한 정신적 에너지를 무단으로 점유하는 불청객입니다. 과거의 상처에 매여 있는 시간은 당신의 현재와 미래를 갉아먹습니다. 
             용서는 상대방을 위해서가 아니라, 오직 나의 시간을 자유롭게 하기 위해 내리는 결단입니다. 
-            예를 들어, 나에게 무례했던 사람을 계속 떠올리며 화를 내는 것은 그 사람에게 내 인생의 귀중한 시간을 계속 바치는 것과 같습니다. 이제 그만 놓아주세요. 미움의 감옥에서 걸어 나와 당신의 찬란한 현재를 사세요.`],
+            예를 들어, 나에게 무례했던 person을 계속 떠올리며 화를 내는 것은 그 사람에게 내 인생의 귀중한 시간을 계속 바치는 것과 같습니다. 이제 그만 놓아주세요. 미움의 감옥에서 걸어 나와 당신의 찬란한 현재를 사세요.`],
 
             ["나눔과 봉사의 기쁨", `가진 것을 나누는 시간은 결코 줄어드는 시간이 아닙니다. 오히려 몇 배의 보람과 에너지로 되돌아오는 신비로운 시간입니다. 
             남을 돕는 과정에서 우리는 자신의 가치를 발견하고 삶의 진정한 의미를 깨닫습니다. 
